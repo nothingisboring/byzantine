@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plaster&family=Sankofa+Display&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Bungee+Spice&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
             /* --- THEME COLOR VARIABLES --- */
@@ -68,12 +68,12 @@
 
 
         h1 {
-            font-family: 'Plaster', Sans-Serif;
-            font-weight: 400, bold;
+            font-family: 'Bungee Shade', Sans-Serif;
+            font-weight: 400;
         }
 
         h2 {
-            font-family: 'Sankofa Display', Sans-Serif;
+            font-family: 'Bungee Spice', Sans-Serif;
             font-weight: 400;
         }
 
@@ -300,9 +300,9 @@
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen p-4"> <header class="text-center mb-4">
-        <h1 class="text-4xl font-bold mb-2" style="color: var(--clr-text-header);">Byzantine</h1>
-          <h2 class="text-3xl font-bold mb-2" style="color: var(--clr-text-header);">Devious</h2>
-         <div id="puzzle-title" class="text-lg">Are you devious enought to solve it?</div> <div id="source-type-emoji" class="text-2xl mb-2"></div>
+        <h1 class="text-4xl font-bold mb-2" style="color: var(--clr-text-header);">BYZANTINE</h1>
+          <h2 class="text-3xl font-bold mb-2" style="color: var(--clr-text-header);">Spicy</h2>
+         <div id="puzzle-title" class="text-lg">Are you savvy enough to solve it?</div> <div id="source-type-emoji" class="text-2xl mb-2"></div>
     </header>
 
     <div id="message-area" class="h-10 mb-4 text-center font-medium" style="color: var(--clr-text-default);"></div> <div id="missing-link-grid" class="missing-link-grid">
@@ -369,7 +369,7 @@
             phase3Solved = false;
             gameComplete = false;
             messageAreaEl.textContent = '';
-            puzzleTitleEl.textContent = 'Are you devious enough to solve it?';
+            puzzleTitleEl.textContent = 'Are you savvy enough to solve it?';
             emojiIndicatorEl.textContent = gameData.sourceTypeEmoji || '';
              solutionsModalContainerEl.innerHTML = '';
 
@@ -406,7 +406,7 @@
             container.classList.add('clue-box-container', 'phase2-inactive');
             container.dataset.phase2ClueId = p2Data.id;
              container.style.gridColumn = `${p2Data.gridPos[1]} / span 1`; container.style.gridRow = `${p2Data.gridPos[0]} / span 1`;
-            const { inner, front, back } = createClueBoxInnerStructure("???"); // Initial placeholder
+            const { inner, front, back } = createClueBoxInnerStructure("?"); // Initial placeholder
             const input = createClueInput();
              input.addEventListener('keydown', (e) => { if (e.key === 'Enter') handlePhase2ClueSubmit(p2Data.id); input.classList.remove('input-error'); });
             const button = createClueButton('Submit');
