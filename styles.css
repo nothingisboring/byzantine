@@ -137,7 +137,7 @@
 
          /* Placeholder Style ('?') */
          .phase2-placeholder {
-             font-size: 2.5rem; font-weight: bold; color: #bdc3c7; /* Lighter gray */
+             font-size: 2.5rem; font-weight: bold; color: #6e4b7d; /* Lighter gray */
              position: absolute; top: 50%; left: 50%;
              transform: translate(-50%, -50%);
              opacity: 1; /* Visible initially */
