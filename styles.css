@@ -161,7 +161,7 @@
 
          /* Active State (When Phase 2 starts) */
          .phase2-box.active {
-             background-color: #51355e; /* teal-50 */
+             background-color: #5f3e6e; /* teal-50 */
              border-color: #3f2a49; /* teal-300 */
              pointer-events: auto; /* Becomes interactive */
          }
@@ -178,7 +178,7 @@
          }
 
          /* Styles for specific content elements */
-         .phase2-box .arrow { font-size: 1.875rem; line-height: 2.25rem; color: #0f766e; margin-bottom: 0.25rem; }
+         .phase2-box .arrow { font-size: 1.875rem; line-height: 2.25rem; color: #15a498; margin-bottom: 0.25rem; }
          .phase2-box input { width: 85%; padding: 3px 6px; border: 1px solid #99f6e4; border-radius: 0.25rem; margin-bottom: 4px; text-align: center; font-size: 0.8rem; background-color: #fff; }
          .phase2-box input.input-error { border-color: #fb7185; background-color: #ffe4e6; }
          .phase2-box button { padding: 2px 8px; font-size: 0.75rem; background-color: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s; }
@@ -187,8 +187,8 @@
 
          /* Solved State */
          .phase2-box.solved {
-             background-color: #51355e; /* emerald-500 */
-             border-color: #c9aada; /* emerald-600 */
+             background-color: #3f2a49; /* emerald-500 */
+             border-color: #9b78ac; /* emerald-600 */
              border-style: solid; /* Solid border */
              color: #ffffff;
              pointer-events: none;
