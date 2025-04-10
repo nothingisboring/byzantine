@@ -72,7 +72,7 @@
             grid-row: 2 / 3;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             background-color: #ffffff;
-            border: 2px solid #d1d5db; /* gray-300 */
+            border: 2px solid #6e4b7d; /* gray-300 */
             border-radius: 0.375rem; padding: 1rem;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Base shadow */
             text-align: center;
@@ -110,12 +110,12 @@
         .clue-box-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
         .clue-box-container.is-flipped .clue-box-inner { transform: rotateY(180deg); }
         .clue-box-front, .clue-box-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0.75rem; border: 2px solid #d1d5db; /* gray-300 */ border-radius: 0.375rem; background-color: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); color: #1f2937; /* gray-800 */ }
-        .clue-box-back { background-color: #f0f9ff; /* sky-50 */ border-color: #7dd3fc; /* sky-300 */ transform: rotateY(180deg); }
+        .clue-box-back { background-color: #51355e; /* sky-50 */ border-color: #3f2a49; /* sky-300 */ transform: rotateY(180deg); }
         .clue-box-back input { width: 90%; padding: 4px 8px; border: 1px solid #cbd5e1; /* slate-300 */ border-radius: 0.25rem; margin-bottom: 5px; text-align: center; }
         .clue-box-back input.input-error { border-color: #ef4444; /* red-500 */ background-color: #fee2e2; /* red-100 */ }
         .clue-box-back button { padding: 3px 10px; font-size: 0.8rem; background-color: #10b981; /* emerald-500 */ color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s; }
         .clue-box-back button:hover { background-color: #059669; /* emerald-600 */ }
-        .clue-solved .clue-box-front { background-color: #10b981; /* emerald-500 */ border-color: #059669; /* emerald-600 */ color: #ffffff; font-weight: 500; }
+        .clue-solved .clue-box-front { background-color: #9b78ac; /* emerald-500 */ border-color: #6e4b7d; /* emerald-600 */ color: #ffffff; font-weight: 500; }
         .clue-solved .clue-box-inner { cursor: default; }
          .puzzle-solved .clue-box-front { opacity: 0.7; } /* Dim solved phase 1 clues */
          .puzzle-solved .clue-box-inner { cursor: default; }
