@@ -1,194 +1,107 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Devious - Mondrian</title> <script src="https://cdn.tailwindcss.com"></script>
+    <title>Byzantine </title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Bungee+Outline&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plaster&family=Afacad&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* --- Base Styles --- */
         body {
-            /* --- DEFAULT THEME COLOR VARIABLES --- */
-            --clr-bg: #f5f5f4;              /* stone-100 */
-            --clr-text-default: #1f2937;   /* gray-800 */
-            --clr-text-muted: #57534e;     /* stone-600 */
-            --clr-text-header: #44403c;    /* stone-700 */
-            --clr-text-placeholder: #9ca3af; /* coolGray-400 */
-            --clr-text-link: #12b093;       /* Primary Action/Solved Link */
-            --clr-text-final-clue: #7c2d12; /* amber-900 */
-            --clr-text-on-solved: #ffffff;
-            --clr-text-on-primary: #ffffff;
-            --clr-text-p2-inactive: #64748b; /* slate-500 */
-
-            --clr-border-default: #d1d5db;  /* gray-300 */
-            --clr-border-backface: #7dd3fc; /* sky-300 */
-            --clr-border-error: #ef4444;    /* red-500 */
-            --clr-border-solved: #0e8e77;   /* Darker primary */
-            --clr-border-p2-inactive: #5eead4; /* teal-300 */
-
-            --clr-primary: #12b093;         /* Main action color (buttons, solved boxes) */
-            --clr-primary-hover: #0e8e77;   /* Darker primary */
-            --clr-primary-disabled: #6cd4c1;/* Lighter primary */
-            --clr-secondary-info: #7dd3fc;  /* Info/Backface borders (sky-300) */
-            --clr-error: #ef4444;           /* Error state red */
-            --clr-error-bg: #fee2e2;        /* red-100 */
-
-            --clr-box-bg-front: #ffffff;
-            --clr-box-bg-back: #f0f9ff;      /* sky-50 */
-            --clr-box-bg-solved: var(--clr-primary);
-            --clr-box-bg-final: #0a5c4d;     /* Darkest teal for final center */
-            --clr-box-bg-p2-inactive-front: #f0fdfa; /* teal-50 */
-            --clr-box-bg-p2-inactive-back: #ccfbf1;  /* teal-100 */
-
-            --clr-glow-1: var(--clr-secondary-info); /* sky-300 */
-            --clr-glow-2: #0ea5e9;          /* sky-500 */
-
-             /* Message Colors (used via JS - define CSS rules below) */
-            --clr-message-success: var(--clr-primary);
-            --clr-message-info: var(--clr-glow-2); /* sky-500 */
-            --clr-message-warning: #f97316; /* orange-500 */
-            --clr-message-error: var(--clr-error);
-            --clr-message-final: #8b5cf6;  /* purple-500 */
-            /* --- End Default Theme Variables --- */
-
             font-family: 'Inter', sans-serif;
-            background-color: var(--clr-bg);
-            transition: background-color 0.5s ease; /* Smooth transition for bg */
+            background-color: #f5f5f4; /* stone-100 */
         }
-
-        /* --- Mondrian Theme Override --- */
-        body.mondrian-theme {
-            /* Re-define variables for the Mondrian look */
-            --clr-bg: #FFFFFF;              /* White background */
-            --clr-text-default: #000000;   /* Black text */
-            --clr-text-muted: #000000;     /* Black muted text */
-            --clr-text-header: #000000;    /* Black header */
-            --clr-text-placeholder: #777777; /* Gray placeholder on White/Yellow */
-            --clr-text-link: #0000FF;       /* Blue solved link */
-            --clr-text-final-clue: #000000; /* Black final clue text */
-            --clr-text-on-solved: #FFFFFF; /* White text on Red/Blue solved boxes */
-            --clr-text-on-primary: #FFFFFF;/* White text on Red buttons */
-            --clr-text-p2-inactive: #000000; /* Black '?' */
-
-            --clr-border-default: #000000;  /* Black borders */
-            --clr-border-backface: #0000FF; /* Blue border for back face */
-            --clr-border-error: #FF0000;    /* Red error border */
-            --clr-border-solved: #000000;   /* Black border for solved boxes */
-            --clr-border-p2-inactive: #FFFF00; /* Yellow dashed border for inactive P2 */
-
-            --clr-primary: #FF0000;         /* Red for primary buttons/solved boxes */
-            --clr-primary-hover: #CC0000;   /* Darker Red */
-            --clr-primary-disabled: #FF9999;/* Lighter Red */
-            --clr-secondary-info: #0000FF;  /* Blue for secondary elements */
-            --clr-error: #FF0000;           /* Red error text */
-            --clr-error-bg: #FFDDDD;        /* Light Red error background */
-
-            --clr-box-bg-front: #FFFFFF;    /* White front face */
-            --clr-box-bg-back: #FFFF00;      /* Yellow back face */
-            --clr-box-bg-solved: var(--clr-primary); /* Red solved background */
-            --clr-box-bg-final: #0000FF;     /* Blue final center box background */
-            --clr-box-bg-p2-inactive-front: #FFFFFF; /* White bg for inactive P2 */
-            --clr-box-bg-p2-inactive-back: #FFFFFF;  /* White bg for inactive P2 back */
-
-            --clr-glow-1: var(--clr-secondary-info); /* Blue glow */
-            --clr-glow-2: #FFFF00;          /* Yellow glow */
-
-             /* Message Colors */
-            --clr-message-success: #0000FF;  /* Blue success */
-            --clr-message-info: #0000FF;     /* Blue info */
-            --clr-message-warning: #FF0000; /* Red warning */
-            --clr-message-error: #FF0000;   /* Red error */
-            --clr-message-final: #000000;  /* Black final message */
-
-             /* --- Optional: Thicker Borders --- */
-             /* --border-width-default: 3px; */ /* Uncomment and apply below if desired */
-        }
-        /* Optional: Apply thicker borders in Mondrian theme */
-        /*
-        body.mondrian-theme .clue-box-front,
-        body.mondrian-theme .clue-box-back,
-        body.mondrian-theme .missing-link-center {
-             border-width: var(--border-width-default, 3px);
-             border-style: solid; // Ensure solid if changing width
-        }
-        body.mondrian-theme .clue-box-container.phase2-inactive[data-phase2-clue-id] .clue-box-front,
-        body.mondrian-theme .clue-box-container.phase2-inactive[data-phase2-clue-id] .clue-box-back {
-            border-style: dashed; // Keep dashed for inactive P2
-        }
-        */
-
-        /* --- Define rules for JS-added text classes using variables --- */
-        .text-teal-600 { color: var(--clr-message-success); }
-        .text-blue-600 { color: var(--clr-message-info); }
-        .text-orange-600 { color: var(--clr-message-warning); }
-        .text-red-600 { color: var(--clr-message-error); }
-        .text-purple-600 { color: var(--clr-message-final); }
-
-
         h1 {
-            font-family: 'Bungee Shade', Sans-Serif;
+            font-family: 'Plaster', Sans-Serif;
             font-weight: 400;
         }
+         h2 {
+            font-family: 'Afacad', Sans-Serif;
+            font-weight: 400;
+         }
 
-                /* --- Animations --- */
-        @keyframes shake { /* No colors here */
-            0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); } 20%, 40%, 60%, 80% { transform: translateX(6px); }
+        /* --- Animations --- */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+            20%, 40%, 60%, 80% { transform: translateX(6px); }
         }
         .shake { animation: shake 0.5s ease-in-out; }
-        @keyframes reveal { /* No colors here */
-            0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; }
-        }
-        .final-celebration { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        @keyframes pulse { /* No colors here */
-            0%, 100% { opacity: 1; } 50% { opacity: .7; }
-        }
-        @keyframes glow { /* Uses variables */
-            0%, 100% { box-shadow: 0 0 10px var(--clr-glow-1); }
-            50% { box-shadow: 0 0 20px var(--clr-glow-2); }
-        }
-        .center-glow { animation: glow 2s infinite ease-in-out; transition: background-color 0.3s ease; }
-         @keyframes fadeIn { /* No colors here */
-            from { opacity: 0; transform: translate(-50%, -60%); } to { opacity: 1; transform: translate(-50%, -50%); }
-        }
-        .solutions-modal { animation: fadeIn 0.3s ease-out; }
 
+        @keyframes reveal {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .8; transform: scale(1.05); }
+        }
+        .final-celebration-message { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        /* --- Phase 3 Glow Effect --- */
+        .phase3-active-center {
+            border: 2px solid #10b981; /* Keep a clear border */
+            /* Glow effect: Adjust blur, spread, color, opacity as needed */
+            box-shadow: 0 0 12px 7px rgba(22, 163, 74, 0.7); /* Emerald-600 at 70% opacity */
+        }
 
         /* --- General Styles --- */
-        #source-type-emoji { font-size: 2rem; line-height: 1; margin-bottom: 0.5rem; }
-        #puzzle-title { color: var(--clr-text-header); transition: color 0.5s ease; }
+        #source-type-emoji {
+            font-size: 1.5rem; line-height: 1; margin-bottom: 0.5rem;
+        }
+        #puzzle-title {
+            color: #44403c; /* stone-700 */
+        }
 
         /* Grid container */
         .missing-link-grid {
-            display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); grid-template-rows: repeat(3, minmax(100px, 1fr));
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            grid-template-rows: repeat(3, minmax(100px, 1fr));
             gap: 1rem; width: 100%; max-width: 500px; aspect-ratio: 1 / 1; margin-bottom: 1.5rem;
         }
 
-        /* Central Missing Link Box */
+        /* --- Central Missing Link Box --- */
         .missing-link-center {
-            grid-column: 2 / 3; grid-row: 2 / 3; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background-color: var(--clr-box-bg-front); border: 2px solid var(--clr-border-default);
-            border-radius: 0.375rem; padding: 1rem; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); text-align: center; min-height: 120px;
-             transition: background-color 0.5s ease, border-color 0.5s ease;
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-color: #ffffff;
+            border: 2px solid #d1d5db; /* gray-300 */
+            border-radius: 0.375rem; padding: 1rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Base shadow */
+            text-align: center;
+            /* Add transition for smooth border and glow appearance/disappearance */
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
         .missing-link-center input {
-            width: 90%; padding: 6px 10px; border: 1px solid var(--clr-border-default);
-            border-radius: 0.25rem; margin-bottom: 8px; text-align: center;
-            color: var(--clr-text-default); background-color: var(--clr-box-bg-front); /* Ensure input colors match theme */
+            width: 90%; padding: 6px 10px; border: 1px solid #cbd5e1; /* slate-300 */ border-radius: 0.25rem; margin-bottom: 8px; text-align: center; font-size: 0.9rem;
         }
-         .missing-link-center input::placeholder { color: var(--clr-text-placeholder); }
-         .missing-link-center input.input-error { border-color: var(--clr-border-error); background-color: var(--clr-error-bg); }
+         .missing-link-center input::placeholder { color: #9ca3af; } /* gray-400 */
+         .missing-link-center input.input-error { border-color: #ef4444; /* red-500 */ background-color: #fee2e2; /* red-100 */ }
         .missing-link-center button {
-            padding: 4px 12px; font-size: 0.85rem; background-color: var(--clr-primary); color: var(--clr-text-on-primary);
-            border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s;
+            padding: 4px 12px; font-size: 0.85rem; background-color: #10b981; /* emerald-500 */ color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s;
         }
-        .missing-link-center button:hover:not(:disabled) { background-color: var(--clr-primary-hover); }
-        .missing-link-center button:disabled { background-color: var(--clr-primary-disabled); cursor: not-allowed; }
-        .missing-link-center p { font-size: 0.8rem; color: var(--clr-text-muted); margin-bottom: 5px; transition: color 0.5s ease;}
-        .missing-link-center .correct-link { font-weight: 700; font-size: 1.1rem; color: var(--clr-text-link); animation: reveal 0.6s ease-out forwards; transition: color 0.5s ease;}
+        .missing-link-center button:hover:not(:disabled) { background-color: #059669; } /* emerald-600 */
+        .missing-link-center button:disabled { background-color: #6ee7b7; /* emerald-300 */ cursor: not-allowed; }
+        .missing-link-center p { font-size: 0.8rem; color: #57534e; /* stone-600 */ margin-bottom: 5px; }
+        .missing-link-center .correct-link { /* For solved Phase 1 and Phase 3 answers */
+            font-weight: 700; font-size: 1.1rem; color: #10b981; /* emerald-500 */ animation: reveal 0.6s ease-out forwards; margin-top: 5px;
+        }
+        .missing-link-center .phase3-clue {
+             font-size: 0.9rem; color: #374151; /* gray-700 */ margin-bottom: 8px; font-style: italic;
+        }
 
-        /* --- Clue Box Styles (Used for Phase 1 & Phase 2) --- */
-        .clue-box-container { perspective: 1000px; min-height: 100px; height: 100%; }
+        /* --- Clue Box Styles (Phase 1) --- */
+        .clue-box-container {
+            perspective: 1000px; min-height: 100px; height: 100%;
+        }
+        /* Define grid positions for Phase 1 clues */
         .clue-box-container[data-clue-id='1'] { grid-column: 2 / 3; grid-row: 1 / 2; }
         .clue-box-container[data-clue-id='2'] { grid-column: 1 / 2; grid-row: 2 / 3; }
         .clue-box-container[data-clue-id='3'] { grid-column: 3 / 4; grid-row: 2 / 3; }
@@ -196,104 +109,105 @@
 
         .clue-box-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
         .clue-box-container.is-flipped .clue-box-inner { transform: rotateY(180deg); }
+        .clue-box-front, .clue-box-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0.75rem; border: 2px solid #d1d5db; /* gray-300 */ border-radius: 0.375rem; background-color: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); color: #1f2937; /* gray-800 */ }
+        .clue-box-back { background-color: #f0f9ff; /* sky-50 */ border-color: #7dd3fc; /* sky-300 */ transform: rotateY(180deg); }
+        .clue-box-back input { width: 90%; padding: 4px 8px; border: 1px solid #cbd5e1; /* slate-300 */ border-radius: 0.25rem; margin-bottom: 5px; text-align: center; }
+        .clue-box-back input.input-error { border-color: #ef4444; /* red-500 */ background-color: #fee2e2; /* red-100 */ }
+        .clue-box-back button { padding: 3px 10px; font-size: 0.8rem; background-color: #10b981; /* emerald-500 */ color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s; }
+        .clue-box-back button:hover { background-color: #059669; /* emerald-600 */ }
+        .clue-solved .clue-box-front { background-color: #10b981; /* emerald-500 */ border-color: #059669; /* emerald-600 */ color: #ffffff; font-weight: 500; }
+        .clue-solved .clue-box-inner { cursor: default; }
+         .puzzle-solved .clue-box-front { opacity: 0.7; } /* Dim solved phase 1 clues */
+         .puzzle-solved .clue-box-inner { cursor: default; }
 
-        .clue-box-front, .clue-box-back {
-            position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0.75rem;
-            border: 2px solid var(--clr-border-default); border-radius: 0.375rem; background-color: var(--clr-box-bg-front);
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); color: var(--clr-text-default);
-             transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease; /* Add transitions */
-        }
-        .clue-box-back { background-color: var(--clr-box-bg-back); border-color: var(--clr-border-backface); transform: rotateY(180deg); }
-        .clue-box-back input {
-            width: 90%; padding: 4px 8px; border: 1px solid var(--clr-border-default); border-radius: 0.25rem; margin-bottom: 5px; text-align: center; font-size: 0.85rem;
-            color: var(--clr-text-default); background-color: var(--clr-box-bg-front); /* Ensure input colors match theme */
-        }
-        .clue-box-back input.input-error { border-color: var(--clr-border-error); background-color: var(--clr-error-bg); }
-        .clue-box-back button {
-             padding: 3px 10px; font-size: 0.8rem; background-color: var(--clr-primary); color: var(--clr-text-on-primary);
-             border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s;
+        /* --- Phase 2 Box Styles --- */
+         .phase2-box {
+             grid-column: var(--col); grid-row: var(--row);
+             /* Inactive State (Visible with '?') */
+             background-color: #f9fafb; /* gray-50 */
+             border: 2px dashed #d1d5db; /* gray-300 dashed */
+             border-radius: 0.375rem; padding: 0.75rem;
+             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+             opacity: 1; /* Box is visible */
+             pointer-events: none; /* Not interactive */
+             transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+             position: relative; /* For positioning placeholder */
+             overflow: hidden;
          }
-        .clue-box-back button:hover:not(:disabled) { background-color: var(--clr-primary-hover); }
-         .clue-box-back button:disabled { background-color: var(--clr-primary-disabled); cursor: not-allowed; }
 
-        /* Solved states */
-        .clue-box-container.clue-solved .clue-box-front { background-color: var(--clr-box-bg-solved); border-color: var(--clr-border-solved); color: var(--clr-text-on-solved); font-weight: 500; }
-        .clue-box-container.clue-solved .clue-box-inner { cursor: default; }
-
-        /* Dimming / Interactivity states */
-        .puzzle-solved .clue-box-container[data-clue-id] .clue-box-front { opacity: 0.7; }
-        .puzzle-solved .clue-box-inner { cursor: default; }
-
-        .phase2-inactive { opacity: 0.65; pointer-events: none; }
-         /* Specific styling for INACTIVE Phase 2 boxes */
-         .clue-box-container.phase2-inactive[data-phase2-clue-id] .clue-box-front,
-         .clue-box-container.phase2-inactive[data-phase2-clue-id] .clue-box-back {
-             background-color: var(--clr-box-bg-p2-inactive-front); border-color: var(--clr-border-p2-inactive);
-             border-style: dashed; border-width: 2px;
+         /* Placeholder Style ('?') */
+         .phase2-placeholder {
+             font-size: 2.5rem; font-weight: bold; color: #bdc3c7; /* Lighter gray */
+             position: absolute; top: 50%; left: 50%;
+             transform: translate(-50%, -50%);
+             opacity: 1; /* Visible initially */
+             transition: opacity 0.3s ease-in-out;
+             z-index: 1; /* Above hidden content */
+             user-select: none; /* Prevent text selection */
          }
-         .clue-box-container.phase2-inactive[data-phase2-clue-id] .clue-box-back { background-color: var(--clr-box-bg-p2-inactive-back); }
-         .clue-box-container.phase2-inactive[data-phase2-clue-id] .clue-box-front { color: var(--clr-text-p2-inactive); font-weight: bold; }
-         .phase2-inactive .clue-box-inner { cursor: default; }
 
-        /* Make sure active styles override the inactive ones */
-         .clue-box-container.phase2-active:not(.clue-solved)[data-phase2-clue-id] .clue-box-front {
-             background-color: var(--clr-box-bg-front); border-color: var(--clr-border-default); border-style: solid;
-             color: var(--clr-text-default); font-weight: normal;
+         /* Style the REAL content (arrow, input, button) */
+         .phase2-box .phase2-content {
+             opacity: 0; /* Hidden initially */
+             pointer-events: none;
+             transition: opacity 0.4s ease-in-out 0.1s; /* Fade in slightly delayed */
+             position: relative; /* Needed for stacking context */
+             z-index: 0; /* Below placeholder initially */
+             width: 100%; /* Ensure content takes width for centering */
+             display: flex; /* Use flex for centering within */
+             flex-direction: column;
+             align-items: center;
          }
-          .clue-box-container.phase2-active:not(.clue-solved)[data-phase2-clue-id] .clue-box-back {
-             background-color: var(--clr-box-bg-back); border-color: var(--clr-border-backface); border-style: solid;
+
+         /* Active State (When Phase 2 starts) */
+         .phase2-box.active {
+             background-color: #f0fdfa; /* teal-50 */
+             border-color: #5eead4; /* teal-300 */
+             pointer-events: auto; /* Becomes interactive */
          }
-         .phase2-active .clue-box-inner { cursor: pointer; }
+         /* Hide placeholder when active */
+         .phase2-box.active .phase2-placeholder {
+             opacity: 0;
+             pointer-events: none;
+         }
+          /* Make REAL content visible and interactive in active state */
+         .phase2-box.active .phase2-content {
+             opacity: 1;
+             pointer-events: auto;
+             z-index: 2; /* Above placeholder visually */
+         }
 
+         /* Styles for specific content elements */
+         .phase2-box .arrow { font-size: 1.875rem; line-height: 2.25rem; color: #0f766e; margin-bottom: 0.25rem; }
+         .phase2-box input { width: 85%; padding: 3px 6px; border: 1px solid #99f6e4; border-radius: 0.25rem; margin-bottom: 4px; text-align: center; font-size: 0.8rem; background-color: #fff; }
+         .phase2-box input.input-error { border-color: #fb7185; background-color: #ffe4e6; }
+         .phase2-box button { padding: 2px 8px; font-size: 0.75rem; background-color: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s; }
+         .phase2-box button:hover:not(:disabled) { background-color: #059669; }
+         .phase2-box button:disabled { background-color: #6ee7b7; cursor: not-allowed; }
 
-        /* --- Phase 3 Styles --- */
-        .phase3-solution {
-            font-weight: 700; font-size: 1.2rem; color: var(--clr-text-on-solved); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            background-color: rgba(255, 255, 255, 0.2); padding: 8px 16px; border-radius: 4px; animation: reveal 0.6s ease-out forwards;
-        }
-        .phase3-clue {
-            font-weight: 500; font-size: 0.85rem; color: var(--clr-text-final-clue); margin: 8px 0; padding: 0 8px; text-align: center;
-            transition: color 0.5s ease;
-        }
-        #phase3-guess {
-            width: 85%; padding: 4px 8px; font-size: 0.85rem; border: 1px solid var(--clr-border-default);
-            border-radius: 0.25rem; margin-bottom: 6px; text-align: center;
-            color: var(--clr-text-default); background-color: var(--clr-box-bg-front); /* Ensure input colors match theme */
-        }
-        #submit-phase3 {
-            padding: 4px 12px; font-size: 0.8rem; background-color: var(--clr-primary); color: var(--clr-text-on-primary);
-            border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s; white-space: nowrap; line-height: 1.2;
-        }
-        #submit-phase3:hover:not(:disabled) { background-color: var(--clr-primary-hover); }
-         #submit-phase3:disabled { background-color: var(--clr-primary-disabled); cursor: not-allowed; }
-
-        .missing-link-center.phase3-active {
-            padding: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; min-height: 120px;
-            background-color: var(--clr-box-bg-front); /* Use variable for active P3 center */
-        }
-        /* Style for the final solved center box */
-        .missing-link-center.final-solved {
-             background-color: var(--clr-box-bg-final) !important; /* Use variable - important if needed */
-             border-color: var(--clr-box-bg-final);
-        }
-
-        /* Modal Styles */
-        .solutions-modal { /* Basic structure, colors depend on content */
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); z-index: 1000; text-align: center; max-width: 90%; width: 300px;
-        }
-         /* Style modal content using variables where appropriate */
-         .solutions-modal h3 { color: var(--clr-text-header); /* Example */ }
-         .solutions-modal p { color: var(--clr-text-link); /* Example */}
-         .solutions-modal button { background-color: var(--clr-primary); color: var(--clr-text-on-primary); /* Example */ }
-
+         /* Solved State */
+         .phase2-box.solved {
+             background-color: #10b981; /* emerald-500 */
+             border-color: #059669; /* emerald-600 */
+             border-style: solid; /* Solid border */
+             color: #ffffff;
+             pointer-events: none;
+         }
+         /* Hide placeholder in solved state */
+         .phase2-box.solved .phase2-placeholder { display: none; }
+         /* Ensure real content (solution text) is visible when solved */
+         .phase2-box.solved > * { opacity: 1; pointer-events: none; }
+         .phase2-box.solved .solution-text { font-weight: 500; font-size: 0.9rem; }
 
     </style>
 </head>
-<body class="flex flex-col items-center min-h-screen p-4"> <header class="text-center mb-4">
-        <h1 class="text-4xl font-bold mb-2" style="color: var(--clr-text-header);">Byzantine</h1>
-        <div id="puzzle-title" class="text-lg">Solve the clues to find the links to solve the clues...</div>
-        <div id="source-type-emoji" class="text-2xl mb-2"></div>
+<body class="flex flex-col items-center min-h-screen p-4 bg-stone-100">
+
+    <header class="text-center mb-4">
+        <h1 class="text-4xl font-extrabold mb-2 text-stone-800">Byzantine</h1>
+        <h2 class="text-3xl font-regular mb-2 text-stone-600">Level: Tame</h2>
+        <div id="source-type-emoji" class="text-1xl mb-2"></div>
+        <div id="puzzle-title" class="text-lg text-stone-700">Solve the clues to find the link!</div>
     </header>
 
     <div id="message-area" class="h-10 mb-4 text-center font-medium"></div>
@@ -301,77 +215,541 @@
     <div id="missing-link-grid" class="missing-link-grid">
         </div>
 
-     <div id="solutions-modal-container"></div>
-
-
     <script>
-        // --- Game Data --- (No changes)
-        const gameData = { missingLink: "Composition with Red, Blue and Yellow", sourceTypeEmoji: '🎨', phase3Solution: "White", phase3Clue: "What links the surrounding answers?", clues: [ { id: 1, text: "Warning", solution: "Red", solved: false }, { id: 2, text: "Custard", solution: "Yellow", solved: false }, { id: 3, text: "Sad", solution: "Blue", solved: false }, { id: 4, text: "Demonstrably sad", solution: "Black", solved: false } ], phase2Clues: [ { id: 'p2_1', gridPos: [1, 1], text: "Low IQ, presidentially so? (5)", solution: "Thick", solved: false }, { id: 'p2_2', gridPos: [1, 3], text: "Up (8)", solution: "Vertical", solved: false }, { id: 'p2_3', gridPos: [3, 1], text: "Sideways (10)", solution: "Horizontal", solved: false }, { id: 'p2_4', gridPos: [3, 3], text: "White ones blow away, apparently (5)", solution: "Lines", solved: false } ], getClueById: function(id) { return this.clues.find(clue => clue.id === id); }, getPhase2ClueById: function(id) { return this.phase2Clues.find(clue => clue.id === id); } };
+        // --- Game Data ---
+        const gameData = {
+            missingLink: "The Great Gatsby",
+            sourceTypeEmoji: '📚',
+            clues: [ // Phase 1 Clues
+                { id: 1, text: "Air or river (6)", solution: "Jordan", solved: false },
+                { id: 2, text: "Seed (8)", solution: "Carraway", solved: false },
+                { id: 3, text: "Flower (5)", solution: "Daisy", solved: false },
+                { id: 4, text: "Bird (3)", solution: "Jay", solved: false }
+            ],
+            phase2Clues: [ // Phase 2 Links
+                { id: 'p2_1', gridPos: [1, 1], arrow: '&#8625;', links: [2, 1], solution: "Daisy", solved: false }, // Carraway -> Jordan = Daisy links them (cousins)
+                { id: 'p2_2', gridPos: [1, 3], arrow: '&#8624;', links: [3, 1], solution: "Tom", solved: false },   // Daisy -> Jordan = Tom links them (husband/lover)
+                { id: 'p2_3', gridPos: [3, 1], arrow: '&#8627;', links: [2, 4], solution: "West Egg", solved: false },// Carraway -> Jay = West Egg links them (location)
+                { id: 'p2_4', gridPos: [3, 3], arrow: '&#8626;', links: [3, 4], solution: "Nick", solved: false }    // Daisy -> Jay = Nick links them (introduces/observes)
+            ],
+             // --- Phase 3 ---
+            phase3Clue: "Do you see what Gatsby saw? (3,5,5)",
+            phase3Solution: "The green light",
+            // --- Methods ---
+            getClueById: function(id) {
+                return this.clues.find(clue => clue.id === id);
+            },
+            getPhase2ClueById: function(id) {
+                 return this.phase2Clues.find(clue => clue.id === id);
+            }
+        };
 
-        // --- Game State --- (No changes)
-        let solvedCluesCount = 0, totalClues = gameData.clues.length, linkSolved = false, phase2Active = false, solvedPhase2Count = 0, totalPhase2Clues = gameData.phase2Clues.length, phase3Active = false, phase3Solved = false, gameComplete = false;
+        // --- Game State ---
+        let solvedCluesCount = 0;
+        let totalClues = gameData.clues.length;
+        let linkSolved = false; // Phase 1 link solved state
+        let solvedPhase2Count = 0;
+        let totalPhase2Clues = gameData.phase2Clues.length;
+        let phase3Started = false;
+        let gameComplete = false; // Overall game completion
 
-        // --- DOM Elements --- (No changes)
-        const gridEl = document.getElementById('missing-link-grid'), messageAreaEl = document.getElementById('message-area'), emojiIndicatorEl = document.getElementById('source-type-emoji'), puzzleTitleEl = document.getElementById('puzzle-title'), solutionsModalContainerEl = document.getElementById('solutions-modal-container');
+        // --- DOM Elements ---
+        const gridEl = document.getElementById('missing-link-grid');
+        const messageAreaEl = document.getElementById('message-area');
+        const emojiIndicatorEl = document.getElementById('source-type-emoji');
+        const puzzleTitleEl = document.getElementById('puzzle-title');
+
 
         // --- Initialization ---
         function initGame() {
-            // *** Reset Theme ***
-            document.body.classList.remove('mondrian-theme');
-            // ******************
+            gridEl.innerHTML = ''; // Clear previous game grid
+            // Reset game state variables
+            solvedCluesCount = 0;
+            linkSolved = false;
+            solvedPhase2Count = 0;
+            phase3Started = false;
+            gameComplete = false;
+            // Reset UI elements
+            messageAreaEl.textContent = '';
+            messageAreaEl.className = 'h-10 mb-4 text-center font-medium'; // Reset message style
+            puzzleTitleEl.textContent = 'Solve the clues to find the link!';
+            emojiIndicatorEl.textContent = gameData.sourceTypeEmoji || '';
+            // Reset solved status in data
+            gameData.clues.forEach(clue => clue.solved = false);
+            gameData.phase2Clues.forEach(clue => clue.solved = false);
 
-            gridEl.innerHTML = ''; solvedCluesCount = 0; linkSolved = false; phase2Active = false; solvedPhase2Count = 0; phase3Active = false; phase3Solved = false; gameComplete = false; messageAreaEl.textContent = ''; puzzleTitleEl.textContent = 'Are you devious enough to solve it?'; emojiIndicatorEl.textContent = gameData.sourceTypeEmoji || ''; solutionsModalContainerEl.innerHTML = '';
-            gameData.clues.forEach(clue => clue.solved = false); gameData.phase2Clues.forEach(clue => clue.solved = false);
-            gameData.clues.forEach(clueData => gridEl.appendChild(createPhase1ClueBox(clueData)));
-            gridEl.appendChild(createCenterBox()); gameData.phase2Clues.forEach(p2Data => gridEl.appendChild(createPhase2ClueBox(p2Data)));
-            checkAllCluesSolved();
-            messageAreaEl.style.color = 'var(--clr-text-default)'; // Ensure message area resets color
+            // --- Create ALL Grid Boxes ---
+            // Phase 1 Clue Boxes
+            gameData.clues.forEach(clueData => {
+                gridEl.appendChild(createPhase1ClueBox(clueData));
+            });
+
+            // Central Box (Phase 1 link and hidden Phase 3 elements)
+            gridEl.appendChild(createCenterBox());
+
+            // Phase 2 Corner Boxes (created with '?' placeholder)
+            gameData.phase2Clues.forEach(p2Data => {
+                 gridEl.appendChild(createPhase2Box(p2Data));
+            });
+
+            checkAllCluesSolved(); // Initial check to potentially enable link input
         }
 
-        // --- Element Creation Functions --- (No changes)
-        function createPhase1ClueBox(clueData){ const container=document.createElement('div'); container.classList.add('clue-box-container'); container.dataset.clueId=clueData.id; const {inner, front, back}=createClueBoxInnerStructure(clueData.text); const input=createClueInput(); input.addEventListener('keydown', (e)=>{ if(e.key==='Enter')handleClueSubmit(clueData.id); input.classList.remove('input-error'); }); const button=createClueButton('Submit'); button.addEventListener('click', (e)=>{ e.stopPropagation(); handleClueSubmit(clueData.id); }); back.appendChild(input); back.appendChild(button); inner.appendChild(front); inner.appendChild(back); container.appendChild(inner); container.addEventListener('click', handleBoxClick); return container; }
-        function createPhase2ClueBox(p2Data){ const container=document.createElement('div'); container.classList.add('clue-box-container', 'phase2-inactive'); container.dataset.phase2ClueId=p2Data.id; container.style.gridColumn=`${p2Data.gridPos[1]} / span 1`; container.style.gridRow=`${p2Data.gridPos[0]} / span 1`; const {inner, front, back}=createClueBoxInnerStructure("?"); const input=createClueInput(); input.addEventListener('keydown', (e)=>{ if(e.key==='Enter')handlePhase2ClueSubmit(p2Data.id); input.classList.remove('input-error'); }); const button=createClueButton('Submit'); button.addEventListener('click', (e)=>{ e.stopPropagation(); handlePhase2ClueSubmit(p2Data.id); }); back.appendChild(input); back.appendChild(button); inner.appendChild(front); inner.appendChild(back); container.appendChild(inner); container.addEventListener('click', handleBoxClick); return container; }
-        function createClueBoxInnerStructure(clueText){ const inner=document.createElement('div'); inner.classList.add('clue-box-inner'); const front=document.createElement('div'); front.classList.add('clue-box-front'); front.textContent=clueText; const back=document.createElement('div'); back.classList.add('clue-box-back'); return {inner, front, back}; }
-        function createClueInput(){ const input=document.createElement('input'); input.type='text'; input.placeholder='Your answer...'; return input; }
-        function createClueButton(text){ const button=document.createElement('button'); button.textContent=text; return button; }
-        function createCenterBox(){ const centerBox=document.createElement('div'); centerBox.classList.add('missing-link-center'); centerBox.id='missing-link-center-box'; const centerTitle=document.createElement('p'); centerTitle.textContent='The Missing Link?'; centerTitle.id='missing-link-title'; const centerInput=document.createElement('input'); centerInput.type='text'; centerInput.id='missing-link-guess'; centerInput.placeholder='Guess the link...'; centerInput.disabled=true; centerInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter')handleLinkSubmit(); centerInput.classList.remove('input-error'); }); const centerButton=document.createElement('button'); centerButton.id='submit-link'; centerButton.textContent='Submit Link'; centerButton.disabled=true; centerButton.addEventListener('click', handleLinkSubmit); centerBox.appendChild(centerTitle); centerBox.appendChild(centerInput); centerBox.appendChild(centerButton); return centerBox; }
+        // --- Element Creation Functions ---
+
+        // Creates a Phase 1 clue box (flippable card)
+        function createPhase1ClueBox(clueData) {
+             const container = document.createElement('div');
+             container.classList.add('clue-box-container');
+             container.dataset.clueId = clueData.id;
+
+             const inner = document.createElement('div');
+             inner.classList.add('clue-box-inner');
+
+             // Front face (shows clue text)
+             const front = document.createElement('div');
+             front.classList.add('clue-box-front');
+             front.textContent = clueData.text;
+
+             // Back face (shows input and submit button)
+             const back = document.createElement('div');
+             back.classList.add('clue-box-back');
+
+             const input = document.createElement('input');
+             input.type = 'text'; input.placeholder = 'Your answer...';
+             input.addEventListener('keydown', (e) => {
+                 if (e.key === 'Enter') handleClueSubmit(clueData.id);
+                 input.classList.remove('input-error'); // Clear error on keydown
+             });
+
+             const button = document.createElement('button');
+             button.textContent = 'Submit';
+             button.addEventListener('click', (e) => {
+                 e.stopPropagation(); // Prevent click from bubbling to container
+                 handleClueSubmit(clueData.id);
+             });
+
+             back.appendChild(input); back.appendChild(button);
+             inner.appendChild(front); inner.appendChild(back);
+             container.appendChild(inner);
+             // Add click listener to the container to handle flipping
+             container.addEventListener('click', handleBoxClick);
+             return container;
+        }
+
+        // Creates the central box containing Phase 1 link elements and hidden Phase 3 elements
+        function createCenterBox() {
+            const centerBox = document.createElement('div');
+            centerBox.classList.add('missing-link-center');
+            centerBox.id = 'missing-link-center-box';
+
+            // --- Phase 1 Elements ---
+            const centerTitle = document.createElement('p');
+            centerTitle.textContent = 'The Missing Link?'; centerTitle.id = 'missing-link-title';
+
+            const centerInput = document.createElement('input');
+            centerInput.type = 'text'; centerInput.id = 'missing-link-guess';
+            centerInput.placeholder = 'Guess the link...'; centerInput.disabled = true; // Disabled initially
+            centerInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleLinkSubmit();
+                centerInput.classList.remove('input-error');
+            });
+
+            const centerButton = document.createElement('button');
+            centerButton.id = 'submit-link'; centerButton.textContent = 'Submit Link'; centerButton.disabled = true; // Disabled initially
+            centerButton.addEventListener('click', handleLinkSubmit);
+
+            // Element to display the solved Phase 1 link
+            const solvedLinkText = document.createElement('div');
+            solvedLinkText.classList.add('correct-link');
+            solvedLinkText.id = 'solved-link-text'; // ID for targeting
+            solvedLinkText.style.display = 'none'; // Start hidden
+
+            // --- Phase 3 Elements (Initially Hidden) ---
+            const phase3ClueText = document.createElement('p');
+            phase3ClueText.id = 'phase3-clue-text';
+            phase3ClueText.classList.add('phase3-clue');
+            phase3ClueText.style.display = 'none';
+
+            const phase3Input = document.createElement('input');
+            phase3Input.type = 'text'; phase3Input.id = 'phase3-guess';
+            phase3Input.placeholder = 'Final Answer...';
+            phase3Input.style.display = 'none';
+            phase3Input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handlePhase3Submit();
+                phase3Input.classList.remove('input-error');
+            });
+
+            const phase3Button = document.createElement('button');
+            phase3Button.id = 'submit-phase3'; phase3Button.textContent = 'Submit Final';
+            phase3Button.style.display = 'none';
+            phase3Button.addEventListener('click', handlePhase3Submit);
+
+            // Append all elements in order
+            centerBox.appendChild(centerTitle);
+            centerBox.appendChild(centerInput);
+            centerBox.appendChild(centerButton);
+            centerBox.appendChild(solvedLinkText);
+            centerBox.appendChild(phase3ClueText);
+            centerBox.appendChild(phase3Input);
+            centerBox.appendChild(phase3Button);
+
+            return centerBox;
+        }
+
+        // Creates a Phase 2 box (corner box) with initial '?' placeholder
+        function createPhase2Box(p2Data) {
+              const box = document.createElement('div');
+              box.classList.add('phase2-box');
+              box.dataset.phase2ClueId = p2Data.id;
+              box.style.position = 'relative'; // Needed for absolute placeholder
+
+              // Set grid position using CSS custom properties
+              box.style.setProperty('--col', `${p2Data.gridPos[1]} / span 1`);
+              box.style.setProperty('--row', `${p2Data.gridPos[0]} / span 1`);
+
+              // --- Placeholder Element ('?') ---
+              const placeholder = document.createElement('div');
+              placeholder.classList.add('phase2-placeholder');
+              placeholder.textContent = '?';
+              box.appendChild(placeholder); // Add placeholder first
+
+              // --- Real Content Elements (Arrow, Input, Button) ---
+              const arrowEl = document.createElement('div');
+              arrowEl.classList.add('arrow', 'phase2-content'); // Common class for targeting
+              arrowEl.innerHTML = p2Data.arrow;
+
+              const input = document.createElement('input');
+              input.type = 'text'; input.placeholder = 'Link?';
+              input.classList.add('phase2-content'); // Common class
+              input.addEventListener('keydown', (e) => {
+                  if (e.key === 'Enter') handlePhase2Submit(p2Data.id);
+                  input.classList.remove('input-error');
+              });
+
+              const button = document.createElement('button');
+              button.textContent = 'Submit';
+              button.classList.add('phase2-content'); // Common class
+              button.addEventListener('click', (e) => {
+                  e.stopPropagation(); // Prevent click bubbling
+                  handlePhase2Submit(p2Data.id);
+              });
+
+              // Append real content after the placeholder
+              box.appendChild(arrowEl);
+              box.appendChild(input);
+              box.appendChild(button);
+
+              return box;
+         }
 
         // --- Event Handlers & Logic ---
-        function handleBoxClick(event){ const container=event.currentTarget; if(gameComplete||phase3Active)return; const isPhase1Box=container.hasAttribute('data-clue-id'); const isPhase2Box=container.hasAttribute('data-phase2-clue-id'); let clueData; let canFlip=false; if(isPhase1Box&&!linkSolved&&!phase2Active){ clueData=gameData.getClueById(parseInt(container.dataset.clueId)); canFlip=clueData&&!clueData.solved; } else if(isPhase2Box&&phase2Active){ clueData=gameData.getPhase2ClueById(container.dataset.phase2ClueId); canFlip=clueData&&!clueData.solved; } if(!canFlip)return; if(container.classList.contains('is-flipped')){ if(event.target.tagName==='INPUT'||event.target.tagName==='BUTTON')return; container.classList.remove('is-flipped'); clearMessage(); } else { container.classList.add('is-flipped'); const input=container.querySelector('.clue-box-back input'); if(input)input.focus(); clearMessage(); } }
-        function handleClueSubmit(clueId){ if(linkSolved||gameComplete||phase2Active)return; const container=gridEl.querySelector(`.clue-box-container[data-clue-id='${clueId}']`); const input=container.querySelector('.clue-box-back input'); const front=container.querySelector('.clue-box-front'); const clueData=gameData.getClueById(clueId); const guess=input.value.trim(); if(!clueData||!guess||clueData.solved)return; const normalizedGuess=guess.toLowerCase().replace(/\s+/g, ' '); const normalizedSolution=clueData.solution.toLowerCase().replace(/\s+/g, ' '); if(normalizedGuess===normalizedSolution){ clueData.solved=true; solvedCluesCount++; front.textContent=clueData.solution; container.classList.add('clue-solved'); container.classList.remove('is-flipped'); input.value=''; input.disabled=true; container.querySelector('.clue-box-back button').disabled=true; displayMessage(`Clue ${clueId} solved!`, 'text-teal-600'); checkAllCluesSolved(); } else { input.classList.add('input-error'); displayMessage('Incorrect clue answer.', 'text-orange-600'); container.querySelector('.clue-box-inner').classList.add('shake'); setTimeout(()=>{ container.querySelector('.clue-box-inner').classList.remove('shake'); }, 500); } }
-        function checkAllCluesSolved(){ const linkInput=document.getElementById('missing-link-guess'); const linkButton=document.getElementById('submit-link'); if(solvedCluesCount===totalClues&&!linkSolved){ linkInput.disabled=false; linkButton.disabled=false; displayMessage('All Phase 1 clues solved! Guess the Missing Link?', 'text-teal-600'); linkInput.focus(); } else if(!linkSolved){ linkInput.disabled=true; linkButton.disabled=true; } }
-        function handleLinkSubmit() {
-            if (linkSolved || gameComplete) return;
-            const linkInput = document.getElementById('missing-link-guess'); const guess = linkInput.value.trim(); const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' '); const normalizedSolution = gameData.missingLink.toLowerCase().replace(/\s+/g, ' ');
-            if (normalizedGuess === normalizedSolution) {
-                linkSolved = true; displayMessage('Missing Link Correct!', 'text-teal-600'); linkInput.disabled = true; document.getElementById('submit-link').disabled = true; document.getElementById('missing-link-title').textContent = 'Link Found!';
-                const centerBox = document.getElementById('missing-link-center-box'); linkInput.style.display = 'none'; document.getElementById('submit-link').style.display = 'none';
-                const solvedLinkText = document.createElement('div'); solvedLinkText.classList.add('correct-link'); solvedLinkText.textContent = gameData.missingLink; centerBox.appendChild(solvedLinkText);
 
-                // *** Apply Mondrian Theme ***
-                document.body.classList.add('mondrian-theme');
-                // **************************
+        // Handles clicking on a Phase 1 clue box (flipping)
+        function handleBoxClick(event) {
+            const container = event.currentTarget;
+            // Prevent flipping if Phase 2 started, Phase 3 started, or game complete
+            if (linkSolved || phase3Started || gameComplete) return;
 
-                gridEl.classList.add('puzzle-solved');
-                setTimeout(startPhase2, 1000);
+            const clueId = parseInt(container.dataset.clueId);
+            if (!clueId) return; // Not a clue box
+            const clueData = gameData.getClueById(clueId);
+            // Don't flip if clue is already solved
+            if (!clueData || clueData.solved) return;
+
+            // Toggle the 'is-flipped' class
+            if (container.classList.contains('is-flipped')) {
+                 // Don't flip back if clicking directly on input/button
+                 if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON') return;
+                 container.classList.remove('is-flipped');
+                 clearMessage(); // Clear temporary messages
             } else {
-                displayMessage('Incorrect Missing Link guess. Try again.', 'text-red-600'); linkInput.classList.add('input-error'); const centerBox = document.getElementById('missing-link-center-box'); centerBox.classList.add('shake'); setTimeout(() => { centerBox.classList.remove('shake'); }, 500);
+                 container.classList.add('is-flipped');
+                 const input = container.querySelector('.clue-box-back input');
+                 if(input) input.focus(); // Focus input when flipped to back
+                 clearMessage();
             }
         }
-        function startPhase2(){ if(gameComplete||phase2Active)return; phase2Active=true; puzzleTitleEl.textContent="Phase 2: Solve the corner clues!"; displayMessage('Solve the four corner clues!', 'text-blue-600'); const phase2Boxes=gridEl.querySelectorAll('.clue-box-container[data-phase2-clue-id]'); phase2Boxes.forEach(box =>{ const phase2ClueId=box.dataset.phase2ClueId; const clueData=gameData.getPhase2ClueById(phase2ClueId); const frontElement=box.querySelector('.clue-box-front'); if(clueData&&frontElement){ frontElement.textContent=clueData.text; } box.classList.remove('phase2-inactive'); box.classList.add('phase2-active'); box.querySelector('.clue-box-inner').style.cursor='pointer'; }); const phase1Boxes=gridEl.querySelectorAll('.clue-box-container[data-clue-id]'); phase1Boxes.forEach(box =>{ box.querySelector('.clue-box-inner').style.cursor='default'; }); }
-        function handlePhase2ClueSubmit(phase2ClueId){ if(gameComplete||!phase2Active||phase3Active)return; const container=gridEl.querySelector(`.clue-box-container[data-phase2-clue-id='${phase2ClueId}']`); const input=container.querySelector('.clue-box-back input'); const front=container.querySelector('.clue-box-front'); const clueData=gameData.getPhase2ClueById(phase2ClueId); const guess=input.value.trim(); if(!clueData||!guess||clueData.solved)return; const normalizedGuess=guess.toLowerCase().replace(/\s+/g, ' '); const normalizedSolution=clueData.solution.toLowerCase().replace(/\s+/g, ' '); if(normalizedGuess===normalizedSolution){ clueData.solved=true; solvedPhase2Count++; front.textContent=clueData.solution; container.classList.add('clue-solved'); container.classList.remove('is-flipped'); input.value=''; input.disabled=true; container.querySelector('.clue-box-back button').disabled=true; container.querySelector('.clue-box-inner').style.cursor='default'; displayMessage(`Phase 2 Clue ${solvedPhase2Count}/${totalPhase2Clues} solved!`, 'text-teal-600'); if(solvedPhase2Count===totalPhase2Clues){ setTimeout(startPhase3, 1000); } } else { input.classList.add('input-error'); displayMessage('Incorrect Phase 2 answer.', 'text-orange-600'); container.querySelector('.clue-box-inner').classList.add('shake'); setTimeout(()=>{ container.querySelector('.clue-box-inner').classList.remove('shake'); }, 500); } }
-        function startPhase3(){ if(gameComplete||phase3Active)return; phase3Active=true; phase2Active=false; puzzleTitleEl.textContent="Phase 3: One final clue!"; displayMessage('The center holds one final clue!', 'text-purple-600'); const centerBox=document.getElementById('missing-link-center-box'); centerBox.innerHTML=''; centerBox.classList.add('center-glow', 'phase3-active'); centerBox.style.backgroundColor=''; const phase3ClueEl=document.createElement('div'); phase3ClueEl.classList.add('phase3-clue'); phase3ClueEl.textContent=gameData.phase3Clue; centerBox.appendChild(phase3ClueEl); const formContainer=document.createElement('div'); formContainer.style.cssText='display: flex; flex-direction: column; align-items: center; width: 100%; gap: 6px;'; const phase3Input=document.createElement('input'); phase3Input.type='text'; phase3Input.id='phase3-guess'; phase3Input.placeholder='Final answer...'; phase3Input.addEventListener('keydown', (e)=>{ if(e.key==='Enter')handlePhase3Submit(); phase3Input.classList.remove('input-error'); }); const phase3Button=document.createElement('button'); phase3Button.id='submit-phase3'; phase3Button.textContent='Submit Final Answer'; phase3Button.addEventListener('click', handlePhase3Submit); formContainer.appendChild(phase3Input); formContainer.appendChild(phase3Button); centerBox.appendChild(formContainer); const phase2Boxes=gridEl.querySelectorAll('.clue-box-container[data-phase2-clue-id]'); phase2Boxes.forEach(box =>{ box.classList.remove('phase2-active'); box.querySelector('.clue-box-inner').style.cursor='default'; if(!box.classList.contains('clue-solved')){ box.style.opacity='0.7'; } }); phase3Input.focus(); }
-        function handlePhase3Submit(){ if(gameComplete||!phase3Active)return; const phase3Input=document.getElementById('phase3-guess'); const guess=phase3Input.value.trim(); if(!guess)return; const normalizedGuess=guess.toLowerCase().replace(/\s+/g, ' '); const normalizedSolution=gameData.phase3Solution.toLowerCase().replace(/\s+/g, ' '); if(normalizedGuess===normalizedSolution){ phase3Solved=true; gameComplete=true; phase3Active=false; const centerBox=document.getElementById('missing-link-center-box'); centerBox.classList.remove('center-glow', 'phase3-active'); centerBox.classList.add('final-solved'); centerBox.innerHTML=''; const finalSolutionText=document.createElement('div'); finalSolutionText.classList.add('phase3-solution'); finalSolutionText.textContent=gameData.phase3Solution; centerBox.appendChild(finalSolutionText); gridEl.querySelectorAll('input, button').forEach(el => el.disabled=true); gridEl.style.pointerEvents='none'; setTimeout(endGameCelebration, 500); } else { phase3Input.classList.add('input-error'); displayMessage('Incorrect final answer. Try again.', 'text-orange-600'); const centerBox=document.getElementById('missing-link-center-box'); centerBox.classList.add('shake'); setTimeout(()=>{ centerBox.classList.remove('shake'); }, 500); } }
+
+        // Handles submitting an answer for a Phase 1 clue
+        function handleClueSubmit(clueId) {
+            // Prevent submission if not in Phase 1
+            if (linkSolved || phase3Started || gameComplete) return;
+
+            const container = gridEl.querySelector(`.clue-box-container[data-clue-id='${clueId}']`);
+            const input = container.querySelector('.clue-box-back input');
+            const front = container.querySelector('.clue-box-front');
+            const clueData = gameData.getClueById(clueId);
+            const guess = input.value.trim();
+
+            if (!clueData || !guess || clueData.solved) return; // Exit if no data, guess, or already solved
+
+            // Normalize guess and solution for comparison
+            const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
+            const normalizedSolution = clueData.solution.toLowerCase().replace(/\s+/g, ' ');
+
+            if (normalizedGuess === normalizedSolution) {
+                // Correct Answer
+                clueData.solved = true;
+                solvedCluesCount++;
+                front.textContent = clueData.solution; // Show solution on front
+                container.classList.add('clue-solved'); // Style as solved
+                container.classList.remove('is-flipped'); // Flip back to front
+                input.value = ''; input.disabled = true; // Disable input
+                container.querySelector('.clue-box-back button').disabled = true; // Disable button
+                displayMessage(`Clue ${clueId} solved!`, 'text-teal-600');
+                checkAllCluesSolved(); // Check if Phase 1 is complete
+            } else {
+                // Incorrect Answer
+                input.classList.add('input-error'); // Style input as error
+                displayMessage('Incorrect clue answer.', 'text-orange-600');
+                // Apply shake animation
+                container.querySelector('.clue-box-inner').classList.add('shake');
+                setTimeout(() => { container.querySelector('.clue-box-inner').classList.remove('shake'); }, 500);
+            }
+        }
+
+        // Checks if all Phase 1 clues are solved and enables the link input if so
+         function checkAllCluesSolved() {
+              const linkInput = document.getElementById('missing-link-guess');
+              const linkButton = document.getElementById('submit-link');
+              // Enable link input only if all clues solved AND Phase 1 link not yet solved
+              if (solvedCluesCount === totalClues && !linkSolved) {
+                   linkInput.disabled = false; linkButton.disabled = false;
+                   displayMessage('All clues solved! Can you guess the Missing Link?', 'text-emerald-600');
+                   linkInput.focus();
+              } else if (!linkSolved) {
+                   // Keep disabled otherwise (unless link already solved)
+                   linkInput.disabled = true; linkButton.disabled = true;
+              }
+         }
+
+        // Handles submitting the Phase 1 Missing Link guess
+        function handleLinkSubmit() {
+            // Prevent submission if not in the correct phase
+            if (linkSolved || phase3Started || gameComplete) return;
+
+            const linkInput = document.getElementById('missing-link-guess');
+            const guess = linkInput.value.trim();
+            const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
+            const normalizedSolution = gameData.missingLink.toLowerCase().replace(/\s+/g, ' ');
+
+            if (normalizedGuess === normalizedSolution) {
+                // Correct Link
+                linkSolved = true; // Mark Phase 1 link as solved
+                displayMessage('Missing Link Correct!', 'text-emerald-600');
+                // Disable Phase 1 input/button
+                linkInput.disabled = true;
+                document.getElementById('submit-link').disabled = true;
+                document.getElementById('missing-link-title').textContent = 'Link Found!';
+
+                // Hide input/button, show solved link text
+                linkInput.style.display = 'none';
+                document.getElementById('submit-link').style.display = 'none';
+                const solvedLinkEl = document.getElementById('solved-link-text');
+                solvedLinkEl.textContent = gameData.missingLink;
+                solvedLinkEl.style.display = 'block'; // Show the solved link
+
+                gridEl.classList.add('puzzle-solved'); // Add class to potentially style solved Phase 1 clues
+                setTimeout(startPhase2, 1200); // Wait then start Phase 2
+            } else {
+                // Incorrect Link
+                displayMessage('Incorrect Missing Link guess. Try again.', 'text-red-600');
+                linkInput.classList.add('input-error');
+                const centerBox = document.getElementById('missing-link-center-box');
+                centerBox.classList.add('shake'); // Shake animation
+                setTimeout(() => { centerBox.classList.remove('shake'); }, 500);
+            }
+        }
+
+        // --- Phase 2 Functions ---
+
+        // Starts Phase 2: Activates the corner boxes
+         function startPhase2() {
+             // Guard conditions: Only start if Phase 1 link is solved and not in later phases
+             if (gameComplete || !linkSolved || phase3Started) return;
+             puzzleTitleEl.textContent = "Phase 2: Who or what links the clues?";
+             displayMessage('Find the connection between the outer clues!', 'text-blue-600');
+
+             // Add 'active' class to all Phase 2 boxes to trigger CSS transition
+             const phase2Boxes = gridEl.querySelectorAll('.phase2-box');
+             phase2Boxes.forEach(box => {
+                 box.classList.add('active');
+             });
+             // Optional: Focus the first Phase 2 input
+             const firstP2Input = gridEl.querySelector('.phase2-box.active input');
+             if (firstP2Input) firstP2Input.focus();
+         }
+
+        // Handles submitting an answer for a Phase 2 link
+        function handlePhase2Submit(phase2ClueId) {
+            // Guard conditions: Only process if in Phase 2
+            if (gameComplete || !linkSolved || phase3Started) return;
+
+            const clueData = gameData.getPhase2ClueById(phase2ClueId);
+            if (!clueData || clueData.solved) return; // Exit if no data or already solved
+
+            const container = gridEl.querySelector(`.phase2-box[data-phase2-clue-id='${phase2ClueId}']`);
+            const input = container.querySelector('input');
+            const guess = input.value.trim();
+
+            if (!guess) return; // Exit if guess is empty
+
+            const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
+            const normalizedSolution = clueData.solution.toLowerCase().replace(/\s+/g, ' ');
+
+            if (normalizedGuess === normalizedSolution) {
+                // Correct Phase 2 Answer
+                clueData.solved = true;
+                solvedPhase2Count++;
+                container.classList.add('solved'); // Style as solved
+
+                // Replace content with just the solution text
+                container.innerHTML = ''; // Clear existing content (placeholder, arrow, input, button)
+                const solutionText = document.createElement('div');
+                solutionText.classList.add('solution-text');
+                solutionText.textContent = clueData.solution;
+                container.appendChild(solutionText);
+
+                displayMessage(`Link ${solvedPhase2Count}/${totalPhase2Clues} found!`, 'text-teal-600');
+
+                // Check if ALL Phase 2 clues are now solved
+                if (solvedPhase2Count === totalPhase2Clues) {
+                    // Phase 2 Complete - Start Phase 3
+                    setTimeout(startPhase3, 1000); // Wait then start Phase 3
+                }
+
+            } else {
+                // Incorrect Phase 2 Answer
+                input.classList.add('input-error');
+                displayMessage('Incorrect link. Try again.', 'text-orange-600');
+                container.classList.add('shake'); // Shake animation
+                setTimeout(() => { container.classList.remove('shake'); }, 500);
+            }
+        }
+
+         // --- Phase 3 Functions ---
+
+         // Starts Phase 3: Modifies the center box for the final clue
+         function startPhase3() {
+             // Guard conditions: Only start if Phase 2 is fully solved
+             if (gameComplete || !linkSolved || solvedPhase2Count !== totalPhase2Clues) return;
+
+             phase3Started = true; // Enter Phase 3 state
+             puzzleTitleEl.textContent = "Phase 3: The Final Clue";
+             displayMessage('One last puzzle remains...', 'text-indigo-600');
+
+             const centerBox = document.getElementById('missing-link-center-box');
+             const linkTitle = document.getElementById('missing-link-title');
+             const solvedLink = document.getElementById('solved-link-text');
+             const phase3ClueEl = document.getElementById('phase3-clue-text');
+             const phase3Input = document.getElementById('phase3-guess');
+             const phase3Button = document.getElementById('submit-phase3');
+
+             // Hide Phase 1 elements remaining in center box
+             linkTitle.style.display = 'none';
+             solvedLink.style.display = 'none';
+
+             // Show and populate Phase 3 elements
+             phase3ClueEl.textContent = gameData.phase3Clue;
+             phase3ClueEl.style.display = 'block';
+             phase3Input.style.display = 'block';
+             phase3Input.disabled = false; // Ensure input is enabled
+             phase3Button.style.display = 'block';
+             phase3Button.disabled = false; // Ensure button is enabled
+
+             // Add glow effect class and focus input
+             centerBox.classList.add('phase3-active-center');
+             phase3Input.focus();
+         }
+
+        // Handles submitting the final Phase 3 answer
+        function handlePhase3Submit() {
+            // Guard conditions: Only process if Phase 3 is active
+            if (gameComplete || !phase3Started) return;
+
+            const input = document.getElementById('phase3-guess');
+            const guess = input.value.trim();
+            const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
+            const normalizedSolution = gameData.phase3Solution.toLowerCase().replace(/\s+/g, ' ');
+            const centerBox = document.getElementById('missing-link-center-box');
+
+            if (normalizedGuess === normalizedSolution) {
+                // Correct Final Answer - Game Complete!
+                gameComplete = true; // Set game complete flag
+                // Disable Phase 3 input/button
+                input.disabled = true;
+                document.getElementById('submit-phase3').disabled = true;
+                centerBox.classList.remove('phase3-active-center'); // Remove glow effect
+
+                // Display the final answer clearly in the center box
+                 const phase3ClueEl = document.getElementById('phase3-clue-text');
+                 phase3ClueEl.textContent = 'Final Answer:'; // Update clue text
+                 input.style.display = 'none'; // Hide input
+                 document.getElementById('submit-phase3').style.display = 'none'; // Hide button
+                 const finalAnswerText = document.createElement('div');
+                 finalAnswerText.classList.add('correct-link'); // Reuse style
+                 finalAnswerText.textContent = gameData.phase3Solution;
+                 // finalAnswerText.style.animation = 'reveal 0.6s ease-out forwards'; // Optional reveal
+                 centerBox.appendChild(finalAnswerText); // Add final answer text
+
+                // Trigger celebration after a short delay
+                setTimeout(endGameCelebration, 700);
+
+            } else {
+                // Incorrect Final Answer
+                displayMessage('Incorrect final answer. Try again.', 'text-red-600');
+                input.classList.add('input-error');
+                centerBox.classList.add('shake'); // Shake animation
+                setTimeout(() => { centerBox.classList.remove('shake'); }, 500);
+            }
+        }
+
+        // Displays the final congratulatory message and applies animation
+         function endGameCelebration() {
+             puzzleTitleEl.textContent = "Byzantine Complete!";
+             messageAreaEl.classList.add('final-celebration-message'); // Apply pulsing animation class
+             displayMessage('🎉🥳 Congratulations! You Solved The Byzantine! 🥳🎉', 'text-lg font-bold text-purple-600');
+
+             // Optional: Add final visual flair (e.g., dim non-central boxes)
+             gridEl.querySelectorAll('.clue-box-container, .phase2-box').forEach(el => {
+                 el.style.opacity = '0.6'; // Dim solved clue/link boxes
+                 el.style.transition = 'opacity 0.5s ease-in-out';
+             });
+             // Ensure center box stays fully visible
+             document.getElementById('missing-link-center-box').style.opacity = '1';
+         }
 
         // --- Utility Functions ---
-        function showSolutionsModal(){ solutionsModalContainerEl.innerHTML=''; const modal=document.createElement('div'); modal.classList.add('solutions-modal'); modal.style.cssText=` position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); z-index: 1000; text-align: center; max-width: 90%; width: 300px; `; modal.innerHTML=` <h3 style="font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: var(--clr-text-header);">Link Found!</h3> <p style="font-size: 1.2em; font-weight: 500; color: var(--clr-text-link); margin-bottom: 20px;">${gameData.missingLink}</p> <button onclick="this.closest('.solutions-modal').nextElementSibling.remove(); this.closest('.solutions-modal').remove();" style=" padding: 8px 18px; background-color: var(--clr-primary); color: var(--clr-text-on-primary); border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s; ">Close</button> `; const overlay=document.createElement('div'); overlay.style.cssText=` position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 999; `; overlay.onclick=()=>{ overlay.remove(); modal.remove(); }; solutionsModalContainerEl.appendChild(modal); solutionsModalContainerEl.appendChild(overlay); }
-        function endGameCelebration(){ puzzleTitleEl.textContent="Byzantine Complete!"; messageAreaEl.classList.add('final-celebration'); displayMessage('😈 Congratulations! You are truly devious! 😈', 'text-purple-600'); } // text-purple-600 uses variable now
-        function displayMessage(text, styleClasses='text-stone-700'){ messageAreaEl.textContent=text; messageAreaEl.className='h-10 mb-4 text-center font-medium'; if(styleClasses){ messageAreaEl.classList.add(...styleClasses.split(' ')); } if(gameComplete&&text.includes("Congratulations")){ messageAreaEl.classList.add('final-celebration'); } } // styleClasses now map to CSS rules using variables
-        function clearMessage(){ const currentText=messageAreaEl.textContent||""; if(!currentText.includes("Phase")&&!currentText.includes("Link")&&!currentText.includes("Congratulations")){ messageAreaEl.textContent=''; messageAreaEl.className='h-10 mb-4 text-center font-medium'; messageAreaEl.style.color='var(--clr-text-default)';} }
 
-        // --- Initialize Game ---
+        // Displays messages to the user in the message area
+        function displayMessage(text, styleClasses = 'text-stone-700') {
+            messageAreaEl.textContent = text;
+            // Reset base classes, then add specific style classes
+            messageAreaEl.className = 'h-10 mb-4 text-center font-medium';
+            messageAreaEl.classList.add(...styleClasses.split(' '));
+             // Remove final celebration class unless it's the final message
+             if (!text.includes("Congratulations!")) {
+                messageAreaEl.classList.remove('final-celebration-message');
+            }
+        }
+
+        // Clears temporary messages from the message area
+        function clearMessage() {
+             const currentText = messageAreaEl.textContent;
+             // Only clear if it's not a persistent phase/completion message
+             const persistentMessages = ["Phase 2:", "Phase 3:", "Congratulations!", "Missing Link Correct!", "All clues solved!"];
+             if (!persistentMessages.some(msg => currentText.includes(msg))) {
+                 messageAreaEl.textContent = '';
+                 messageAreaEl.className = 'h-10 mb-4 text-center font-medium'; // Reset styles
+             }
+        }
+
+        // --- Initialize Game on Load ---
         document.addEventListener('DOMContentLoaded', initGame);
     </script>
 
 </body>
 </html>
+
+
