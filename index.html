@@ -41,13 +41,23 @@
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: .8; transform: scale(1.05); }
         }
+
+        /* Phase 3 Pulsing Glow Animation */
+        @keyframes pulsingGlow {
+        0%, 100% { 
+        box-shadow: 0 0 12px 7px rgba(22, 163, 74, 0.7); /* Base glow */
+        }
+        50% { 
+        box-shadow: 0 0 18px 10px rgba(16, 185, 129, 0.85); /* Enhanced glow at peak */
+        }
+        }
         .final-celebration-message { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
         /* --- Phase 3 Glow Effect --- */
         .phase3-active-center {
-            border: 2px solid #10b981; /* Keep a clear border */
-            /* Glow effect: Adjust blur, spread, color, opacity as needed */
-            box-shadow: 0 0 12px 7px rgba(22, 163, 74, 0.7); /* Emerald-600 at 70% opacity */
+        border: 2px solid #10b981; /* Keep the emerald border */
+        animation: pulsingGlow 2s ease-in-out infinite; /* Apply the animation */
+        background-color: #ecfdf5; /* Very light emerald background for extra effect */
         }
 
         /* --- General Styles --- */
@@ -751,5 +761,3 @@
 
 </body>
 </html>
-
-
