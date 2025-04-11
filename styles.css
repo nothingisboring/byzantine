@@ -1,0 +1,202 @@
+ <style>
+        /* --- Base Styles --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+        }
+        h1 {
+            font-family: 'Plaster', Sans-Serif;
+            font-weight: 400;
+        }
+         h2 {
+            font-family: 'Afacad', Sans-Serif;
+            font-weight: 400;
+         }
+
+        /* --- Animations --- */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+            20%, 40%, 60%, 80% { transform: translateX(6px); }
+        }
+        .shake { animation: shake 0.5s ease-in-out; }
+
+        @keyframes reveal {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .8; transform: scale(1.05); }
+        }
+
+        /* Phase 3 Pulsing Glow Animation */
+        @keyframes pulsingGlow {
+        0%, 100% { 
+        box-shadow: 0 0 12px 7px rgba(22, 163, 74, 0.7); /* Base glow */
+        }
+        50% { 
+        box-shadow: 0 0 18px 10px rgba(16, 185, 129, 0.85); /* Enhanced glow at peak */
+        }
+        }
+        .final-celebration-message { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        /* --- Phase 3 Glow Effect --- */
+        .phase3-active-center {
+        border: 2px solid #10b981; /* Keep the emerald border */
+        animation: pulsingGlow 2s ease-in-out infinite; /* Apply the animation */
+        background-color: #ecfdf5; /* Very light emerald background for extra effect */
+        }
+
+        /* --- General Styles --- */
+        #source-type-emoji {
+            font-size: 1.5rem; line-height: 1; margin-bottom: 0.5rem;
+        }
+        #puzzle-title {
+            color: #44403c; /* stone-700 */
+        }
+
+        /* Grid container */
+        .missing-link-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            grid-template-rows: repeat(3, minmax(100px, 1fr));
+            gap: 1rem; width: 100%; max-width: 500px; aspect-ratio: 1 / 1; margin-bottom: 1.5rem;
+        }
+
+        /* --- Central Missing Link Box --- */
+        .missing-link-center {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background-color: #ffffff;
+            border: 2px solid #6e4b7d; /* gray-300 */
+            border-radius: 0.375rem; padding: 1rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Base shadow */
+            text-align: center;
+            /* Add transition for smooth border and glow appearance/disappearance */
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .missing-link-center input {
+            width: 90%; padding: 6px 10px; border: 1px solid #cbd5e1; /* slate-300 */ border-radius: 0.25rem; margin-bottom: 8px; text-align: center; font-size: 0.9rem;
+        }
+         .missing-link-center input::placeholder { color: #9ca3af; } /* gray-400 */
+         .missing-link-center input.input-error { border-color: #3f2a49; /* red-500 */ background-color: #fee2e2; /* red-100 */ }
+        .missing-link-center button {
+            padding: 4px 12px; font-size: 0.85rem; background-color: #6e4b7d; /* emerald-500 */ color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s;
+        }
+        .missing-link-center button:hover:not(:disabled) { background-color: #059669; } /* emerald-600 */
+        .missing-link-center button:disabled { background-color: #6ee7b7; /* emerald-300 */ cursor: not-allowed; }
+        .missing-link-center p { font-size: 0.8rem; color: #57534e; /* stone-600 */ margin-bottom: 5px; }
+        .missing-link-center .correct-link { /* For solved Phase 1 and Phase 3 answers */
+            font-weight: 700; font-size: 1.1rem; color: #6e4b7d; /* emerald-500 */ animation: reveal 0.6s ease-out forwards; margin-top: 5px;
+        }
+        .missing-link-center .phase3-clue {
+             font-size: 0.9rem; color: #374151; /* gray-700 */ margin-bottom: 8px; font-style: italic;
+        }
+
+        /* --- Clue Box Styles (Phase 1) --- */
+        .clue-box-container {
+            perspective: 1000px; min-height: 100px; height: 100%;
+        }
+        /* Define grid positions for Phase 1 clues */
+        .clue-box-container[data-clue-id='1'] { grid-column: 2 / 3; grid-row: 1 / 2; }
+        .clue-box-container[data-clue-id='2'] { grid-column: 1 / 2; grid-row: 2 / 3; }
+        .clue-box-container[data-clue-id='3'] { grid-column: 3 / 4; grid-row: 2 / 3; }
+        .clue-box-container[data-clue-id='4'] { grid-column: 2 / 3; grid-row: 3 / 4; }
+
+        .clue-box-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+        .clue-box-container.is-flipped .clue-box-inner { transform: rotateY(180deg); }
+        .clue-box-front, .clue-box-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0.75rem; border: 2px solid #d1d5db; /* gray-300 */ border-radius: 0.375rem; background-color: #ffffff; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); color: #1f2937; /* gray-800 */ }
+        .clue-box-back { background-color: #51355e; /* sky-50 */ border-color: #3f2a49; /* sky-300 */ transform: rotateY(180deg); }
+        .clue-box-back input { width: 90%; padding: 4px 8px; border: 1px solid #cbd5e1; /* slate-300 */ border-radius: 0.25rem; margin-bottom: 5px; text-align: center; }
+        .clue-box-back input.input-error { border-color: #ef4444; /* red-500 */ background-color: #fee2e2; /* red-100 */ }
+        .clue-box-back button { padding: 3px 10px; font-size: 0.8rem; background-color: #10b981; /* emerald-500 */ color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s; }
+        .clue-box-back button:hover { background-color: #059669; /* emerald-600 */ }
+        .clue-solved .clue-box-front { background-color: #9b78ac; /* emerald-500 */ border-color: #6e4b7d; /* emerald-600 */ color: #ffffff; font-weight: 500; }
+        .clue-solved .clue-box-inner { cursor: default; }
+         .puzzle-solved .clue-box-front { opacity: 0.7; } /* Dim solved phase 1 clues */
+         .puzzle-solved .clue-box-inner { cursor: default; }
+
+        /* --- Phase 2 Box Styles --- */
+         .phase2-box {
+             grid-column: var(--col); grid-row: var(--row);
+             /* Inactive State (Visible with '?') */
+             background-color: #c9aada; /* gray-50 */
+             border: 2px dashed #6e4b7d; /* gray-300 dashed */
+             border-radius: 0.375rem; padding: 0.75rem;
+             display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+             opacity: 1; /* Box is visible */
+             pointer-events: none; /* Not interactive */
+             transition: background-color 0.4s ease-in-out, border-color 0.4s ease-in-out;
+             position: relative; /* For positioning placeholder */
+             overflow: hidden;
+         }
+
+         /* Placeholder Style ('?') */
+         .phase2-placeholder {
+             font-size: 2.5rem; font-weight: bold; color: #6e4b7d; /* Lighter gray */
+             position: absolute; top: 50%; left: 50%;
+             transform: translate(-50%, -50%);
+             opacity: 1; /* Visible initially */
+             transition: opacity 0.3s ease-in-out;
+             z-index: 1; /* Above hidden content */
+             user-select: none; /* Prevent text selection */
+         }
+
+         /* Style the REAL content (arrow, input, button) */
+         .phase2-box .phase2-content {
+             opacity: 0; /* Hidden initially */
+             pointer-events: none;
+             transition: opacity 0.4s ease-in-out 0.1s; /* Fade in slightly delayed */
+             position: relative; /* Needed for stacking context */
+             z-index: 0; /* Below placeholder initially */
+             width: 100%; /* Ensure content takes width for centering */
+             display: flex; /* Use flex for centering within */
+             flex-direction: column;
+             align-items: center;
+         }
+
+         /* Active State (When Phase 2 starts) */
+         .phase2-box.active {
+             background-color: #3f2a49; /* teal-50 */
+             border-color: #51355e; /* teal-300 */
+             pointer-events: auto; /* Becomes interactive */
+         }
+         /* Hide placeholder when active */
+         .phase2-box.active .phase2-placeholder {
+             opacity: 0;
+             pointer-events: none;
+         }
+          /* Make REAL content visible and interactive in active state */
+         .phase2-box.active .phase2-content {
+             opacity: 1;
+             pointer-events: auto;
+             z-index: 2; /* Above placeholder visually */
+         }
+
+         /* Styles for specific content elements */
+         .phase2-box .arrow { font-size: 1.875rem; line-height: 2.25rem; color: #15a498; margin-bottom: 0.25rem; }
+         .phase2-box input { width: 85%; padding: 3px 6px; border: 1px solid #99f6e4; border-radius: 0.25rem; margin-bottom: 4px; text-align: center; font-size: 0.8rem; background-color: #fff; }
+         .phase2-box input.input-error { border-color: #fb7185; background-color: #ffe4e6; }
+         .phase2-box button { padding: 2px 8px; font-size: 0.75rem; background-color: #10b981; color: white; border: none; border-radius: 0.25rem; cursor: pointer; transition: background-color 0.2s; }
+         .phase2-box button:hover:not(:disabled) { background-color: #059669; }
+         .phase2-box button:disabled { background-color: #6ee7b7; cursor: not-allowed; }
+
+         /* Solved State */
+         .phase2-box.solved {
+             background-color: #5f3e6e; /* emerald-500 */
+             border-color: #6e4b7d; /* emerald-600 */
+             border-style: solid; /* Solid border */
+             color: #ffffff;
+             pointer-events: none;
+         }
+         /* Hide placeholder in solved state */
+         .phase2-box.solved .phase2-placeholder { display: none; }
+         /* Ensure real content (solution text) is visible when solved */
+         .phase2-box.solved > * { opacity: 1; pointer-events: none; }
+         .phase2-box.solved .solution-text { font-weight: 500; font-size: 0.9rem; }
+
+    </style>
