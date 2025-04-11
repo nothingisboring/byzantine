@@ -161,8 +161,8 @@
 
          /* Active State (When Phase 2 starts) */
          .phase2-box.active {
-             background-color: #5f3e6e; /* teal-50 */
-             border-color: #3f2a49; /* teal-300 */
+             background-color: #3f2a49; /* teal-50 */
+             border-color: #51355e; /* teal-300 */
              pointer-events: auto; /* Becomes interactive */
          }
          /* Hide placeholder when active */
@@ -187,8 +187,8 @@
 
          /* Solved State */
          .phase2-box.solved {
-             background-color: #3f2a49; /* emerald-500 */
-             border-color: #9b78ac; /* emerald-600 */
+             background-color: #5f3e6e; /* emerald-500 */
+             border-color: #6e4b7d; /* emerald-600 */
              border-style: solid; /* Solid border */
              color: #ffffff;
              pointer-events: none;
