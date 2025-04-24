@@ -9,10 +9,41 @@
             font-weight: 400;
         }
          h2 {
-            font-family: 'Poppins', Sans-Serif;
+            font-family: 'Montserrat', Sans-Serif;
             font-weight: 400;
          }
 
+.city {
+  background-color: Indianred;
+  color: white;
+  padding: 10px;
+} 
+
+.bum {
+  background-color: Indianred;
+  color: white;
+  padding: 10px;
+} 
+
+.arse {
+  background-color: steelblue;
+  color: white;
+  padding: 10px;
+} 
+
+.city, .bum, .arse {
+  font-family: 'Montserrat';
+}
+
+css.bullet-point {
+  padding-left: 20px;
+  position: relative;
+}
+.bullet-point:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+}
         /* --- Animations --- */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
