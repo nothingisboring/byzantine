@@ -20,7 +20,6 @@
         <h2 class="text-1xl font-regular mb-2 text-stone-600">Can you solve today's slightly oblique cultural puzzle?</h2>
         <div id="source-type-emoji" class="text-2xl mb-2"></div> 
          <div id="score-display"></div>
-         
     <!-- Add this inside the <body> tag -->
 <button id="howToPlayButton" title="How to Play" 
     class="fixed bottom-4 right-4 w-12 h-12 bg-gray-800 text-white rounded-full shadow-lg flex items-center justify-center text-lg hover:bg-gray-700 z-50">
@@ -70,26 +69,27 @@
     <div id="missing-link-grid" class="missing-link-grid">
          </div>
     
-    
     <script>
-        // --- Game Data ---
+          // --- Game Data ---
         const gameData = {
             missingLink: "The Great Gatsby",
             sourceTypeEmoji: '📚',
-            phase3Solution: "The green light",
-            phase3Clue: "Do you see what Gatsby saw? (3,5,5)",
             clues: [ // Phase 1 Clues
-                { id: 1, text: "Air or river (6)", solution: "Jordan", solved: false },
-                { id: 2, text: "Seed (8)", solution: "Carraway", solved: false },
-                { id: 3, text: "Flower (5)", solution: "Daisy", solved: false },
-                { id: 4, text: "Bird (3)", solution: "Jay", solved: false }
+                { id: 1, text: "Air or river (6)", solution: "Jordan", d: false },
+                { id: 2, text: "Right in seed (8)", solution: "Carraway", d: false },
+                { id: 3, text: "Flower (5)", solution: "Daisy", d: false },
+                { id: 4, text: "Bird (3)", solution: "Jay", d: false }
             ],
-            phase2Clues: [ // Phase 2 Clues (New Structure)
-                { id: 'p2_1', gridPos: [1, 1], text: "Low IQ e.g. Trump? (5)", solution: "Thick", solved: false },
-                { id: 'p2_2', gridPos: [1, 3], text: "Up (7)", solution: "Vertical", solved: false },
-                { id: 'p2_3', gridPos: [3, 1], text: "Sideways (9)", solution: "Horizontal", solved: false },
-                { id: 'p2_4', gridPos: [3, 3], text: "White ones blow away, apparently (5)", solution: "Lines", solved: false }
+            phase2Clues: [ // Phase 2 Links
+                { id: 'p2_1', gridPos: [1, 1], arrow: '&#8625;', links: [2, 1], solution: "Daisy", d: false }, // Carraway -> Jordan = Daisy links them (cousins)
+                { id: 'p2_2', gridPos: [1, 3], arrow: '&#8624;', links: [3, 1], solution: "Tom", d: false },   // Daisy -> Jordan = Tom links them (husband/lover)
+                { id: 'p2_3', gridPos: [3, 1], arrow: '&#8627;', links: [2, 4], solution: "West Egg", d: false },// Carraway -> Jay = West Egg links them (location)
+                { id: 'p2_4', gridPos: [3, 3], arrow: '&#8626;', links: [3, 4], solution: "Nick", solved: false }    // Daisy -> Jay = Nick links them (introduces/observes)
             ],
+             // --- Phase 3 ---
+            phase3Clue: "Do you see what Gatsby saw? (3,5,5)",
+            phase3Solution: "The green light",
+            // --- Methods ---
             getClueById: function(id) {
                 return this.clues.find(clue => clue.id === id);
             },
@@ -101,38 +101,34 @@
         // --- Game State ---
         let solvedCluesCount = 0;
         let totalClues = gameData.clues.length;
-        let linkSolved = false;
-        let phase2Active = false; // Phase 2 flag
+        let linkSolved = false; // Phase 1 link solved state
         let solvedPhase2Count = 0;
         let totalPhase2Clues = gameData.phase2Clues.length;
-        let phase3Active = false;
-        let phase3Solved = false;
-        let gameComplete = false;
-
+        let phase3Started = false;
+        let gameComplete = false; // Overall game completion
 
         // --- DOM Elements ---
         const gridEl = document.getElementById('missing-link-grid');
         const messageAreaEl = document.getElementById('message-area');
         const emojiIndicatorEl = document.getElementById('source-type-emoji');
         const puzzleTitleEl = document.getElementById('puzzle-title');
-        const solutionsModalContainerEl = document.getElementById('solutions-modal-container');
 
 
         // --- Initialization ---
         function initGame() {
-            gridEl.innerHTML = ''; // Clear previous grid
+            gridEl.innerHTML = ''; // Clear previous game grid
+            // Reset game state variables
             solvedCluesCount = 0;
             linkSolved = false;
-            phase2Active = false;
             solvedPhase2Count = 0;
-            phase3Active = false;
-            phase3Solved = false;
+            phase3Started = false;
             gameComplete = false;
+            // Reset UI elements
             messageAreaEl.textContent = '';
+            messageAreaEl.className = 'h-10 mb-4 text-center font-medium'; // Reset message style
             puzzleTitleEl.textContent = '';
             emojiIndicatorEl.textContent = gameData.sourceTypeEmoji || '';
-             solutionsModalContainerEl.innerHTML = ''; // Clear any old modal
-
+            // Reset solved status in data
             gameData.clues.forEach(clue => clue.solved = false);
             gameData.phase2Clues.forEach(clue => clue.solved = false);
 
@@ -142,167 +138,197 @@
                 gridEl.appendChild(createPhase1ClueBox(clueData));
             });
 
-            // Central Missing Link Box
+            // Central Box (Phase 1 link and hidden Phase 3 elements)
             gridEl.appendChild(createCenterBox());
 
-            // Phase 2 Clue Boxes (created initially with placeholder text, styled as inactive)
+            // Phase 2 Corner Boxes (created with '?' placeholder)
             gameData.phase2Clues.forEach(p2Data => {
-                 gridEl.appendChild(createPhase2ClueBox(p2Data));
+                 gridEl.appendChild(createPhase2Box(p2Data));
             });
 
-            checkAllCluesSolved(); // Initial check for link input state
+            checkAllCluesSolved(); // Initial check to potentially enable link input
         }
 
         // --- Element Creation Functions ---
 
-        // Creates standard Phase 1 clue boxes
+        // Creates a Phase 1 clue box (flippable card)
         function createPhase1ClueBox(clueData) {
-            const container = document.createElement('div');
-            container.classList.add('clue-box-container');
-            container.dataset.clueId = clueData.id; // Identify as Phase 1 clue
+             const container = document.createElement('div');
+             container.classList.add('clue-box-container');
+             container.dataset.clueId = clueData.id;
 
-            // Use the actual clue text for Phase 1 boxes
-            const { inner, front, back } = createClueBoxInnerStructure(clueData.text);
-
-            const input = createClueInput();
-             input.addEventListener('keydown', (e) => {
-                 if (e.key === 'Enter') handleClueSubmit(clueData.id);
-                 input.classList.remove('input-error');
-             });
-            const button = createClueButton('Submit');
-             button.addEventListener('click', (e) => { e.stopPropagation(); handleClueSubmit(clueData.id); });
-
-            back.appendChild(input);
-            back.appendChild(button);
-            inner.appendChild(front);
-            inner.appendChild(back);
-            container.appendChild(inner);
-
-            container.addEventListener('click', handleBoxClick);
-            return container;
-        }
-
-        // Creates Phase 2 clue boxes (looks like Phase 1 but positioned differently and handled separately)
-        function createPhase2ClueBox(p2Data) {
-            const container = document.createElement('div');
-            container.classList.add('clue-box-container', 'phase2-inactive'); // Start inactive
-            container.dataset.phase2ClueId = p2Data.id; // Identify as Phase 2 clue
-
-             container.style.gridColumn = `${p2Data.gridPos[1]} / span 1`;
-             container.style.gridRow = `${p2Data.gridPos[0]} / span 1`;
-
-            // *** CHANGE: Use placeholder text initially for Phase 2 front face ***
-            const { inner, front, back } = createClueBoxInnerStructure("?");
-
-            const input = createClueInput();
-             input.addEventListener('keydown', (e) => {
-                 if (e.key === 'Enter') handlePhase2ClueSubmit(p2Data.id); // Use Phase 2 handler
-                 input.classList.remove('input-error');
-             });
-            const button = createClueButton('Submit');
-             button.addEventListener('click', (e) => { e.stopPropagation(); handlePhase2ClueSubmit(p2Data.id); }); // Use Phase 2 handler
-
-            back.appendChild(input);
-            back.appendChild(button);
-            inner.appendChild(front);
-            inner.appendChild(back);
-            container.appendChild(inner);
-
-             container.addEventListener('click', handleBoxClick);
-            return container;
-        }
-
-         // Helper for common parts of clue boxes
-         function createClueBoxInnerStructure(clueText) {
              const inner = document.createElement('div');
              inner.classList.add('clue-box-inner');
+
+             // Front face (shows clue text)
              const front = document.createElement('div');
              front.classList.add('clue-box-front');
-             front.textContent = clueText; // Sets the text passed in
+             front.textContent = clueData.text;
+
+             // Back face (shows input and submit button)
              const back = document.createElement('div');
              back.classList.add('clue-box-back');
-             return { inner, front, back };
-         }
 
-         // Helper to create standard input for clue boxes
-         function createClueInput() {
              const input = document.createElement('input');
-             input.type = 'text';
-             input.placeholder = 'Your answer...';
-             return input;
-         }
+             input.type = 'text'; input.placeholder = 'Your answer...';
+             input.addEventListener('keydown', (e) => {
+                 if (e.key === 'Enter') handleClueSubmit(clueData.id);
+                 input.classList.remove('input-error'); // Clear error on keydown
+             });
 
-         // Helper to create standard button for clue boxes
-         function createClueButton(text) {
              const button = document.createElement('button');
-             button.textContent = text;
-             return button;
-         }
+             button.textContent = 'Submit';
+             button.addEventListener('click', (e) => {
+                 e.stopPropagation(); // Prevent click from bubbling to container
+                 handleClueSubmit(clueData.id);
+             });
 
+             back.appendChild(input); back.appendChild(button);
+             inner.appendChild(front); inner.appendChild(back);
+             container.appendChild(inner);
+             // Add click listener to the container to handle flipping
+             container.addEventListener('click', handleBoxClick);
+             return container;
+        }
 
+        // Creates the central box containing Phase 1 link elements and hidden Phase 3 elements
         function createCenterBox() {
             const centerBox = document.createElement('div');
             centerBox.classList.add('missing-link-center');
             centerBox.id = 'missing-link-center-box';
 
+            // --- Phase 1 Elements ---
             const centerTitle = document.createElement('p');
             centerTitle.textContent = 'The Missing Link?'; centerTitle.id = 'missing-link-title';
 
             const centerInput = document.createElement('input');
             centerInput.type = 'text'; centerInput.id = 'missing-link-guess';
-            centerInput.placeholder = 'Guess the link...'; centerInput.disabled = true;
+            centerInput.placeholder = 'Guess the link...'; centerInput.disabled = true; // Disabled initially
             centerInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') handleLinkSubmit();
                 centerInput.classList.remove('input-error');
             });
 
             const centerButton = document.createElement('button');
-            centerButton.id = 'submit-link'; centerButton.textContent = 'Submit Link'; centerButton.disabled = true;
+            centerButton.id = 'submit-link'; centerButton.textContent = 'Submit Link'; centerButton.disabled = true; // Disabled initially
             centerButton.addEventListener('click', handleLinkSubmit);
 
-            centerBox.appendChild(centerTitle); centerBox.appendChild(centerInput); centerBox.appendChild(centerButton);
+            // Element to display the solved Phase 1 link
+            const solvedLinkText = document.createElement('div');
+            solvedLinkText.classList.add('correct-link');
+            solvedLinkText.id = 'solved-link-text'; // ID for targeting
+            solvedLinkText.style.display = 'none'; // Start hidden
+
+            // --- Phase 3 Elements (Initially Hidden) ---
+            const phase3ClueText = document.createElement('p');
+            phase3ClueText.id = 'phase3-clue-text';
+            phase3ClueText.classList.add('phase3-clue');
+            phase3ClueText.style.display = 'none';
+
+            const phase3Input = document.createElement('input');
+            phase3Input.type = 'text'; phase3Input.id = 'phase3-guess';
+            phase3Input.placeholder = 'Final Answer...';
+            phase3Input.style.display = 'none';
+            phase3Input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handlePhase3Submit();
+                phase3Input.classList.remove('input-error');
+            });
+
+            const phase3Button = document.createElement('button');
+            phase3Button.id = 'submit-phase3'; phase3Button.textContent = 'Submit Final';
+            phase3Button.style.display = 'none';
+            phase3Button.addEventListener('click', handlePhase3Submit);
+
+            // Append all elements in order
+            centerBox.appendChild(centerTitle);
+            centerBox.appendChild(centerInput);
+            centerBox.appendChild(centerButton);
+            centerBox.appendChild(solvedLinkText);
+            centerBox.appendChild(phase3ClueText);
+            centerBox.appendChild(phase3Input);
+            centerBox.appendChild(phase3Button);
+
             return centerBox;
         }
 
+        // Creates a Phase 2 box (corner box) with initial '?' placeholder
+        function createPhase2Box(p2Data) {
+              const box = document.createElement('div');
+              box.classList.add('phase2-box');
+              box.dataset.phase2ClueId = p2Data.id;
+              box.style.position = 'relative'; // Needed for absolute placeholder
+
+              // Set grid position using CSS custom properties
+              box.style.setProperty('--col', `${p2Data.gridPos[1]} / span 1`);
+              box.style.setProperty('--row', `${p2Data.gridPos[0]} / span 1`);
+
+              // --- Placeholder Element ('?') ---
+              const placeholder = document.createElement('div');
+              placeholder.classList.add('phase2-placeholder');
+              placeholder.textContent = '?';
+              box.appendChild(placeholder); // Add placeholder first
+
+              // --- Real Content Elements (Arrow, Input, Button) ---
+              const arrowEl = document.createElement('div');
+              arrowEl.classList.add('arrow', 'phase2-content'); // Common class for targeting
+              arrowEl.innerHTML = p2Data.arrow;
+
+              const input = document.createElement('input');
+              input.type = 'text'; input.placeholder = 'Link?';
+              input.classList.add('phase2-content'); // Common class
+              input.addEventListener('keydown', (e) => {
+                  if (e.key === 'Enter') handlePhase2Submit(p2Data.id);
+                  input.classList.remove('input-error');
+              });
+
+              const button = document.createElement('button');
+              button.textContent = 'Submit';
+              button.classList.add('phase2-content'); // Common class
+              button.addEventListener('click', (e) => {
+                  e.stopPropagation(); // Prevent click bubbling
+                  handlePhase2Submit(p2Data.id);
+              });
+
+              // Append real content after the placeholder
+              box.appendChild(arrowEl);
+              box.appendChild(input);
+              box.appendChild(button);
+
+              return box;
+         }
 
         // --- Event Handlers & Logic ---
 
+        // Handles clicking on a Phase 1 clue box (flipping)
         function handleBoxClick(event) {
-             const container = event.currentTarget;
-             if (gameComplete || phase3Active) return; // Don't flip if game over or in Phase 3
+            const container = event.currentTarget;
+            // Prevent flipping if Phase 2 started, Phase 3 started, or game complete
+            if (linkSolved || phase3Started || gameComplete) return;
 
-             const isPhase1Box = container.hasAttribute('data-clue-id');
-             const isPhase2Box = container.hasAttribute('data-phase2-clue-id');
+            const clueId = parseInt(container.dataset.clueId);
+            if (!clueId) return; // Not a clue box
+            const clueData = gameData.getClueById(clueId);
+            // Don't flip if clue is already solved
+            if (!clueData || clueData.solved) return;
 
-             let clueData;
-             let canFlip = false;
-
-             if (isPhase1Box && !linkSolved && !phase2Active) { // Phase 1 box, before link is found & before P2 starts
-                 clueData = gameData.getClueById(parseInt(container.dataset.clueId));
-                 canFlip = clueData && !clueData.solved;
-             } else if (isPhase2Box && phase2Active) { // Phase 2 box, ONLY during Phase 2
-                 clueData = gameData.getPhase2ClueById(container.dataset.phase2ClueId);
-                 canFlip = clueData && !clueData.solved;
-             }
-
-             if (!canFlip) return; // Don't flip solved, inactive P2, or irrelevant boxes
-
-             // Handle flip logic
-             if (container.classList.contains('is-flipped')) {
-                 // Prevent flipping back if clicking input/button
+            // Toggle the 'is-flipped' class
+            if (container.classList.contains('is-flipped')) {
+                 // Don't flip back if clicking directly on input/button
                  if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON') return;
                  container.classList.remove('is-flipped');
                  clearMessage(); // Clear temporary messages
-             } else {
+            } else {
                  container.classList.add('is-flipped');
                  const input = container.querySelector('.clue-box-back input');
-                 if (input) input.focus(); // Focus input on flip
+                 if(input) input.focus(); // Focus input when flipped to back
                  clearMessage();
-             }
+            }
         }
 
+        // Handles submitting an answer for a Phase 1 clue
         function handleClueSubmit(clueId) {
-            if (linkSolved || gameComplete || phase2Active) return; // Only handle Phase 1 clues before link/Phase 2
+            // Prevent submission if not in Phase 1
+            if (linkSolved || phase3Started || gameComplete) return;
 
             const container = gridEl.querySelector(`.clue-box-container[data-clue-id='${clueId}']`);
             const input = container.querySelector('.clue-box-back input');
@@ -310,44 +336,52 @@
             const clueData = gameData.getClueById(clueId);
             const guess = input.value.trim();
 
-            if (!clueData || !guess || clueData.solved) return;
+            if (!clueData || !guess || clueData.solved) return; // Exit if no data, guess, or already solved
 
+            // Normalize guess and solution for comparison
             const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
             const normalizedSolution = clueData.solution.toLowerCase().replace(/\s+/g, ' ');
 
             if (normalizedGuess === normalizedSolution) {
+                // Correct Answer
                 clueData.solved = true;
                 solvedCluesCount++;
                 front.textContent = clueData.solution; // Show solution on front
-                container.classList.add('clue-solved');
-                container.classList.remove('is-flipped'); // Flip back
+                container.classList.add('clue-solved'); // Style as solved
+                container.classList.remove('is-flipped'); // Flip back to front
                 input.value = ''; input.disabled = true; // Disable input
                 container.querySelector('.clue-box-back button').disabled = true; // Disable button
                 displayMessage(`Clue ${clueId} solved!`, 'text-teal-600');
-                checkAllCluesSolved(); // Check if link can be guessed now
+                checkAllCluesSolved(); // Check if Phase 1 is complete
             } else {
-                input.classList.add('input-error');
+                // Incorrect Answer
+                input.classList.add('input-error'); // Style input as error
                 displayMessage('Incorrect clue answer.', 'text-orange-600');
+                // Apply shake animation
                 container.querySelector('.clue-box-inner').classList.add('shake');
                 setTimeout(() => { container.querySelector('.clue-box-inner').classList.remove('shake'); }, 500);
             }
         }
 
+        // Checks if all Phase 1 clues are solved and enables the link input if so
          function checkAllCluesSolved() {
-             const linkInput = document.getElementById('missing-link-guess');
-             const linkButton = document.getElementById('submit-link');
-             if (solvedCluesCount === totalClues && !linkSolved) {
-                 linkInput.disabled = false; linkButton.disabled = false;
-                 displayMessage('All Phase 1 clues solved! Guess the Missing Link?', 'text-teal-600');
-                 linkInput.focus();
-             } else if (!linkSolved) {
-                 linkInput.disabled = true; linkButton.disabled = true;
-             }
+              const linkInput = document.getElementById('missing-link-guess');
+              const linkButton = document.getElementById('submit-link');
+              // Enable link input only if all clues solved AND Phase 1 link not yet solved
+              if (solvedCluesCount === totalClues && !linkSolved) {
+                   linkInput.disabled = false; linkButton.disabled = false;
+                   displayMessage('All clues solved! Can you guess the Missing Link?', 'text-emerald-600');
+                   linkInput.focus();
+              } else if (!linkSolved) {
+                   // Keep disabled otherwise (unless link already solved)
+                   linkInput.disabled = true; linkButton.disabled = true;
+              }
          }
 
-
+        // Handles submitting the Phase 1 Missing Link guess
         function handleLinkSubmit() {
-            if (linkSolved || gameComplete) return;
+            // Prevent submission if not in the correct phase
+            if (linkSolved || phase3Started || gameComplete) return;
 
             const linkInput = document.getElementById('missing-link-guess');
             const guess = linkInput.value.trim();
@@ -355,280 +389,217 @@
             const normalizedSolution = gameData.missingLink.toLowerCase().replace(/\s+/g, ' ');
 
             if (normalizedGuess === normalizedSolution) {
-                linkSolved = true;
-                displayMessage('Missing Link Correct!', 'text-teal-600');
+                // Correct Link
+                linkSolved = true; // Mark Phase 1 link as solved
+                displayMessage('Missing Link Correct!', 'text-emerald-600');
+                // Disable Phase 1 input/button
                 linkInput.disabled = true;
                 document.getElementById('submit-link').disabled = true;
                 document.getElementById('missing-link-title').textContent = 'Link Found!';
 
-                const centerBox = document.getElementById('missing-link-center-box');
-                linkInput.style.display = 'none'; // Hide input
-                document.getElementById('submit-link').style.display = 'none'; // Hide button
+                // Hide input/button, show solved link text
+                linkInput.style.display = 'none';
+                document.getElementById('submit-link').style.display = 'none';
+                const solvedLinkEl = document.getElementById('solved-link-text');
+                solvedLinkEl.textContent = gameData.missingLink;
+                solvedLinkEl.style.display = 'block'; // Show the solved link
 
-                const solvedLinkText = document.createElement('div');
-                solvedLinkText.classList.add('correct-link');
-                solvedLinkText.textContent = gameData.missingLink;
-                centerBox.appendChild(solvedLinkText);
-
-                gridEl.classList.add('puzzle-solved'); // Apply styling to grid (e.g., dim Phase 1 boxes)
-
-                setTimeout(startPhase2, 1000); // Move to Phase 2 after a delay
+                gridEl.classList.add('puzzle-solved'); // Add class to potentially style solved Phase 1 clues
+                setTimeout(startPhase2, 1200); // Wait then start Phase 2
             } else {
+                // Incorrect Link
                 displayMessage('Incorrect Missing Link guess. Try again.', 'text-red-600');
                 linkInput.classList.add('input-error');
                 const centerBox = document.getElementById('missing-link-center-box');
-                centerBox.classList.add('shake');
+                centerBox.classList.add('shake'); // Shake animation
                 setTimeout(() => { centerBox.classList.remove('shake'); }, 500);
             }
         }
 
         // --- Phase 2 Functions ---
+
+        // Starts Phase 2: Activates the corner boxes
          function startPhase2() {
-             if (gameComplete || phase2Active) return; // Prevent re-starting
-             phase2Active = true;
-             puzzleTitleEl.textContent = "Phase 2: Solve the corner clues!";
-             displayMessage('Solve the four corner clues!', 'text-blue-600');
+             // Guard conditions: Only start if Phase 1 link is solved and not in later phases
+             if (gameComplete || !linkSolved || phase3Started) return;
+             puzzleTitleEl.textContent = "Phase 2: Who or what links the clues?";
+             displayMessage('Find the connection between the outer clues!', 'text-blue-600');
 
-             // Activate Phase 2 clue boxes and reveal their text
-             const phase2Boxes = gridEl.querySelectorAll('.clue-box-container[data-phase2-clue-id]');
+             // Add 'active' class to all Phase 2 boxes to trigger CSS transition
+             const phase2Boxes = gridEl.querySelectorAll('.phase2-box');
              phase2Boxes.forEach(box => {
-                 const phase2ClueId = box.dataset.phase2ClueId;
-                 const clueData = gameData.getPhase2ClueById(phase2ClueId);
-                 const frontElement = box.querySelector('.clue-box-front');
-
-                 // *** CHANGE: Reveal the actual clue text ***
-                 if (clueData && frontElement) {
-                     frontElement.textContent = clueData.text;
-                 }
-
-                 // *** Make the box active ***
-                 box.classList.remove('phase2-inactive');
-                 box.classList.add('phase2-active');
-                 // Ensure inner element is clickable again (overrides .puzzle-solved cursor)
-                 box.querySelector('.clue-box-inner').style.cursor = 'pointer';
+                 box.classList.add('active');
              });
-
-             // Ensure Phase 1 boxes are not clickable anymore
-              const phase1Boxes = gridEl.querySelectorAll('.clue-box-container[data-clue-id]');
-              phase1Boxes.forEach(box => {
-                   box.querySelector('.clue-box-inner').style.cursor = 'default';
-              });
+             // Optional: Focus the first Phase 2 input
+             const firstP2Input = gridEl.querySelector('.phase2-box.active input');
+             if (firstP2Input) firstP2Input.focus();
          }
 
-        function handlePhase2ClueSubmit(phase2ClueId) {
-             if (gameComplete || !phase2Active || phase3Active) return; // Only during Phase 2
+        // Handles submitting an answer for a Phase 2 link
+        function handlePhase2Submit(phase2ClueId) {
+            // Guard conditions: Only process if in Phase 2
+            if (gameComplete || !linkSolved || phase3Started) return;
 
-             const container = gridEl.querySelector(`.clue-box-container[data-phase2-clue-id='${phase2ClueId}']`);
-             const input = container.querySelector('.clue-box-back input');
-             const front = container.querySelector('.clue-box-front');
-             const clueData = gameData.getPhase2ClueById(phase2ClueId);
-             const guess = input.value.trim();
+            const clueData = gameData.getPhase2ClueById(phase2ClueId);
+            if (!clueData || clueData.solved) return; // Exit if no data or already solved
 
-             if (!clueData || !guess || clueData.solved) return;
+            const container = gridEl.querySelector(`.phase2-box[data-phase2-clue-id='${phase2ClueId}']`);
+            const input = container.querySelector('input');
+            const guess = input.value.trim();
 
-             const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
-             const normalizedSolution = clueData.solution.toLowerCase().replace(/\s+/g, ' ');
-
-             if (normalizedGuess === normalizedSolution) {
-                 clueData.solved = true;
-                 solvedPhase2Count++;
-                 front.textContent = clueData.solution; // Show solution
-                 container.classList.add('clue-solved');
-                 container.classList.remove('is-flipped'); // Flip back
-                 input.value = ''; input.disabled = true; // Disable input
-                 container.querySelector('.clue-box-back button').disabled = true; // Disable button
-                 container.querySelector('.clue-box-inner').style.cursor = 'default'; // Make unclickable
-
-                 displayMessage(`Phase 2 Clue ${solvedPhase2Count}/${totalPhase2Clues} solved!`, 'text-teal-600');
-
-                 if (solvedPhase2Count === totalPhase2Clues) {
-                     setTimeout(startPhase3, 1000); // Move to Phase 3
-                 }
-             } else {
-                 input.classList.add('input-error');
-                 displayMessage('Incorrect Phase 2 answer.', 'text-orange-600');
-                 container.querySelector('.clue-box-inner').classList.add('shake');
-                 setTimeout(() => { container.querySelector('.clue-box-inner').classList.remove('shake'); }, 500);
-             }
-         }
-
-
-        // --- Phase 3 Functions ---
-        function startPhase3() {
-            if (gameComplete || phase3Active) return; // Prevent re-starting
-            phase3Active = true;
-            phase2Active = false; // Phase 2 is over
-
-            puzzleTitleEl.textContent = "Phase 3: One final character to find!";
-            displayMessage('The center holds one final clue!', 'text-purple-600');
-
-            const centerBox = document.getElementById('missing-link-center-box');
-            centerBox.innerHTML = ''; // Clear existing content (like the solved Link)
-            centerBox.classList.add('center-glow', 'phase3-active');
-             centerBox.style.backgroundColor = '#ffffff'; // Reset background in case it was colored
-
-            // Add the final clue text
-            const phase3ClueEl = document.createElement('div');
-            phase3ClueEl.classList.add('phase3-clue');
-            phase3ClueEl.textContent = gameData.phase3Clue;
-            centerBox.appendChild(phase3ClueEl);
-
-            // Form container for better layout
-            const formContainer = document.createElement('div');
-            formContainer.style.cssText = 'display: flex; flex-direction: column; align-items: center; width: 100%; gap: 6px;';
-
-            // Input for Phase 3 answer
-            const phase3Input = document.createElement('input');
-            phase3Input.type = 'text';
-            phase3Input.id = 'phase3-guess';
-            phase3Input.placeholder = 'Final answer...';
-            phase3Input.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') handlePhase3Submit();
-                phase3Input.classList.remove('input-error');
-            });
-
-            // Button for Phase 3 answer
-            const phase3Button = document.createElement('button');
-            phase3Button.id = 'submit-phase3';
-            phase3Button.textContent = 'Submit Final Answer';
-            phase3Button.addEventListener('click', handlePhase3Submit);
-
-            formContainer.appendChild(phase3Input);
-            formContainer.appendChild(phase3Button);
-            centerBox.appendChild(formContainer);
-
-             // Make Phase 2 boxes visually inactive/unclickable again
-              const phase2Boxes = gridEl.querySelectorAll('.clue-box-container[data-phase2-clue-id]');
-              phase2Boxes.forEach(box => {
-                   box.classList.remove('phase2-active'); // Remove active marker
-                   // Keep .clue-solved if it was solved
-                   // Ensure it's not clickable
-                    box.querySelector('.clue-box-inner').style.cursor = 'default';
-                    if(!box.classList.contains('clue-solved')) {
-                         // Optionally revert non-solved ones back to inactive look
-                         // box.classList.add('phase2-inactive');
-                         // Or just dim them generally
-                         box.style.opacity = '0.7';
-                    }
-              });
-
-
-            phase3Input.focus();
-        }
-
-        function handlePhase3Submit() {
-            if (gameComplete || !phase3Active) return;
-
-            const phase3Input = document.getElementById('phase3-guess');
-            const guess = phase3Input.value.trim();
-
-            if (!guess) return;
+            if (!guess) return; // Exit if guess is empty
 
             const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
-            const normalizedSolution = gameData.phase3Solution.toLowerCase().replace(/\s+/g, ' ');
+            const normalizedSolution = clueData.solution.toLowerCase().replace(/\s+/g, ' ');
 
             if (normalizedGuess === normalizedSolution) {
-                phase3Solved = true;
-                gameComplete = true;
-                phase3Active = false; // Phase 3 is over
+                // Correct Phase 2 Answer
+                clueData.solved = true;
+                solvedPhase2Count++;
+                container.classList.add('solved'); // Style as solved
 
-                const centerBox = document.getElementById('missing-link-center-box');
-                centerBox.classList.remove('center-glow', 'phase3-active');
-                centerBox.style.backgroundColor = '#12b093'; // Use teal for solved state background
-                centerBox.style.transition = 'background-color 0.3s ease';
+                // Replace content with just the solution text
+                container.innerHTML = ''; // Clear existing content (placeholder, arrow, input, button)
+                const solutionText = document.createElement('div');
+                solutionText.classList.add('solution-text');
+                solutionText.textContent = clueData.solution;
+                container.appendChild(solutionText);
 
-                centerBox.innerHTML = ''; // Clear form
+                displayMessage(`Link ${solvedPhase2Count}/${totalPhase2Clues} found!`, 'text-teal-600');
 
-                // Display the final solution
-                const finalSolutionText = document.createElement('div');
-                finalSolutionText.classList.add('phase3-solution'); // Use existing style
-                finalSolutionText.textContent = gameData.phase3Solution;
-                centerBox.appendChild(finalSolutionText);
+                // Check if ALL Phase 2 clues are now solved
+                if (solvedPhase2Count === totalPhase2Clues) {
+                    // Phase 2 Complete - Start Phase 3
+                    setTimeout(startPhase3, 1000); // Wait then start Phase 3
+                }
 
-                // Disable remaining inputs/buttons (belt and braces)
-                 gridEl.querySelectorAll('input, button').forEach(el => el.disabled = true);
-                 gridEl.style.pointerEvents = 'none'; // Disable clicks on grid
-
-
-                setTimeout(endGameCelebration, 500);
             } else {
-                phase3Input.classList.add('input-error');
-                displayMessage('Incorrect final answer. Try again.', 'text-orange-600');
-                const centerBox = document.getElementById('missing-link-center-box');
-                centerBox.classList.add('shake');
+                // Incorrect Phase 2 Answer
+                input.classList.add('input-error');
+                displayMessage('Incorrect link. Try again.', 'text-orange-600');
+                container.classList.add('shake'); // Shake animation
+                setTimeout(() => { container.classList.remove('shake'); }, 500);
+            }
+        }
+
+         // --- Phase 3 Functions ---
+
+         // Starts Phase 3: Modifies the center box for the final clue
+         function startPhase3() {
+             // Guard conditions: Only start if Phase 2 is fully solved
+             if (gameComplete || !linkSolved || solvedPhase2Count !== totalPhase2Clues) return;
+
+             phase3Started = true; // Enter Phase 3 state
+             puzzleTitleEl.textContent = "Phase 3: The Final Clue";
+             displayMessage('One last puzzle remains...', 'text-indigo-600');
+
+             const centerBox = document.getElementById('missing-link-center-box');
+             const linkTitle = document.getElementById('missing-link-title');
+             const solvedLink = document.getElementById('solved-link-text');
+             const phase3ClueEl = document.getElementById('phase3-clue-text');
+             const phase3Input = document.getElementById('phase3-guess');
+             const phase3Button = document.getElementById('submit-phase3');
+
+             // Hide Phase 1 elements remaining in center box
+             linkTitle.style.display = 'none';
+             solvedLink.style.display = 'none';
+
+             // Show and populate Phase 3 elements
+             phase3ClueEl.textContent = gameData.phase3Clue;
+             phase3ClueEl.style.display = 'block';
+             phase3Input.style.display = 'block';
+             phase3Input.disabled = false; // Ensure input is enabled
+             phase3Button.style.display = 'block';
+             phase3Button.disabled = false; // Ensure button is enabled
+
+             // Add glow effect class and focus input
+             centerBox.classList.add('phase3-active-center');
+             phase3Input.focus();
+         }
+
+        // Handles submitting the final Phase 3 answer
+        function handlePhase3Submit() {
+            // Guard conditions: Only process if Phase 3 is active
+            if (gameComplete || !phase3Started) return;
+
+            const input = document.getElementById('phase3-guess');
+            const guess = input.value.trim();
+            const normalizedGuess = guess.toLowerCase().replace(/\s+/g, ' ');
+            const normalizedSolution = gameData.phase3Solution.toLowerCase().replace(/\s+/g, ' ');
+            const centerBox = document.getElementById('missing-link-center-box');
+
+            if (normalizedGuess === normalizedSolution) {
+                // Correct Final Answer - Game Complete!
+                gameComplete = true; // Set game complete flag
+                // Disable Phase 3 input/button
+                input.disabled = true;
+                document.getElementById('submit-phase3').disabled = true;
+                centerBox.classList.remove('phase3-active-center'); // Remove glow effect
+
+                // Display the final answer clearly in the center box
+                 const phase3ClueEl = document.getElementById('phase3-clue-text');
+                 phase3ClueEl.textContent = 'Final Answer:'; // Update clue text
+                 input.style.display = 'none'; // Hide input
+                 document.getElementById('submit-phase3').style.display = 'none'; // Hide button
+                 const finalAnswerText = document.createElement('div');
+                 finalAnswerText.classList.add('correct-link'); // Reuse style
+                 finalAnswerText.textContent = gameData.phase3Solution;
+                 // finalAnswerText.style.animation = 'reveal 0.6s ease-out forwards'; // Optional reveal
+                 centerBox.appendChild(finalAnswerText); // Add final answer text
+
+                // Trigger celebration after a short delay
+                setTimeout(endGameCelebration, 700);
+
+            } else {
+                // Incorrect Final Answer
+                displayMessage('Incorrect final answer. Try again.', 'text-red-600');
+                input.classList.add('input-error');
+                centerBox.classList.add('shake'); // Shake animation
                 setTimeout(() => { centerBox.classList.remove('shake'); }, 500);
             }
         }
 
+        // Displays the final congratulatory message and applies animation
+         function endGameCelebration() {
+             puzzleTitleEl.textContent = "Oblique completed!";
+             messageAreaEl.classList.add('final-celebration-message'); // Apply pulsing animation class
+             displayMessage('🧠 Congratulations! You can join the Obliquerati! 🧠', 'text-lg font-bold text-orange-600');
+
+             // Optional: Add final visual flair (e.g., dim non-central boxes)
+             gridEl.querySelectorAll('.clue-box-container, .phase2-box').forEach(el => {
+                 el.style.opacity = '0.6'; // Dim solved clue/link boxes
+                 el.style.transition = 'opacity 0.5s ease-in-out';
+             });
+             // Ensure center box stays fully visible
+             document.getElementById('missing-link-center-box').style.opacity = '1';
+         }
 
         // --- Utility Functions ---
 
-        function showSolutionsModal() {
-             solutionsModalContainerEl.innerHTML = ''; // Clear previous modal if any
-
-             const modal = document.createElement('div');
-             modal.classList.add('solutions-modal');
-             modal.style.cssText = `
-                 position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                 background-color: white; padding: 25px; border-radius: 8px;
-                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); z-index: 1000; text-align: center;
-                 max-width: 90%; width: 300px;
-             `;
-
-              modal.innerHTML = `
-                  <h3 style="font-weight: bold; margin-bottom: 15px; font-size: 1.1em; color: #333;">Link Found!</h3>
-                  <p style="font-size: 1.2em; font-weight: 500; color: #12b093; margin-bottom: 20px;">${gameData.missingLink}</p>
-                  <button onclick="this.closest('.solutions-modal').nextElementSibling.remove(); this.closest('.solutions-modal').remove();" style="
-                      padding: 8px 18px; background-color: #12b093; color: white; border: none;
-                      border-radius: 4px; cursor: pointer; font-size: 0.9em; transition: background-color 0.2s;
-                  ">Close</button>
-             `;
-
-             // Add overlay
-             const overlay = document.createElement('div');
-             overlay.style.cssText = `
-                 position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-                 background-color: rgba(0, 0, 0, 0.5); z-index: 999;
-             `;
-             overlay.onclick = () => { // Close modal on overlay click
-                 overlay.remove();
-                 modal.remove();
-             };
-
-             solutionsModalContainerEl.appendChild(modal);
-             solutionsModalContainerEl.appendChild(overlay);
-          }
-
-
-        function endGameCelebration() {
-            puzzleTitleEl.textContent = "Oblique Complete!";
-            messageAreaEl.classList.add('final-celebration');
-            displayMessage('🧠 Congratulations! You can join the Obliquerati! 🧠', 'text-lg font-bold text-orange-600');
-        }
-
+        // Displays messages to the user in the message area
         function displayMessage(text, styleClasses = 'text-stone-700') {
             messageAreaEl.textContent = text;
-            // Reset classes carefully, keeping base ones
+            // Reset base classes, then add specific style classes
             messageAreaEl.className = 'h-10 mb-4 text-center font-medium';
-            if (styleClasses) {
-                messageAreaEl.classList.add(...styleClasses.split(' '));
+            messageAreaEl.classList.add(...styleClasses.split(' '));
+             // Remove final celebration class unless it's the final message
+             if (!text.includes("Congratulations!")) {
+                messageAreaEl.classList.remove('final-celebration-message');
             }
-             // Ensure celebration animation persists if added
-             if (gameComplete && text.includes("Congratulations")) {
-                 messageAreaEl.classList.add('final-celebration');
-             }
         }
 
-         function clearMessage() {
-             const currentText = messageAreaEl.textContent || "";
-             // Clear only temporary messages, not persistent phase/completion messages
-             if (!currentText.includes("Phase") && !currentText.includes("Link") && !currentText.includes("Congratulations")) {
+        // Clears temporary messages from the message area
+        function clearMessage() {
+             const currentText = messageAreaEl.textContent;
+             // Only clear if it's not a persistent phase/completion message
+             const persistentMessages = ["Phase 2:", "Phase 3:", "Congratulations!", "Missing Link Correct!", "All clues solved!"];
+             if (!persistentMessages.some(msg => currentText.includes(msg))) {
                  messageAreaEl.textContent = '';
                  messageAreaEl.className = 'h-10 mb-4 text-center font-medium'; // Reset styles
              }
-         }
+        }
 
-         document.addEventListener('DOMContentLoaded', () => {
+             document.addEventListener('DOMContentLoaded', () => {
     // --- Initialize Game ---
     initGame();
 
@@ -659,6 +630,5 @@
     });
 });
     </script>
-
 </body>
 </html>
