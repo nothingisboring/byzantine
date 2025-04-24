@@ -35,14 +35,43 @@
   font-family: 'Montserrat';
 }
 
-css.bullet-point {
-  padding-left: 20px;
-  position: relative;
+.clue-list {
+  list-style-type: none;
+  padding-left: 15px;
 }
-.bullet-point:before {
+
+.clue-list li {
+  margin-bottom: 15px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.clue-list li:before {
   content: "•";
   position: absolute;
   left: 0;
+  color: #CD5C5C; /* Gold bullet points */
+  font-size: 1.2em;
+}
+
+.highlight {
+  color: #FFC107; /* Amber color that works with steelblue */
+  font-weight: bold;
+}
+
+.examples {
+  margin-top: 3px;
+  margin-bottom: 10px;
+  padding-left: 15px;
+  font-style: italic;
+}
+
+.footnote {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  font-style: italic;
+  font-size: 0.9em;
 }
         /* --- Animations --- */
         @keyframes shake {
