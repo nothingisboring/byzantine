@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oblique</title>
+    <title>Devious</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,12 +12,12 @@
    
 <body class="flex flex-col items-center min-h-screen p-4"> <header class="text-center mb-6 w-full max-w-3xl">
          <img
-            src="https://see.fontimg.com/api/rf5/jr40/YzY2YzczZGI3MzIxNDIxOWE2ZmUwOThlZTA5MzMxNGMudHRm/T0JMSVFVRQ/blus-blocks.png?r=dw&h=56&w=1000&fg=0C1442&bg=FFFFFF&s=56"
+            src="https://see.fontimg.com/api/rf5/MZdp/YWJmMTkwMDNiZDg1NDEwYmFlYWY4YzFjZWQzZTNlZGQudHRm/REVWSU91Uw/neospacial.png?r=fs&h=56&w=1000&fg=0C1442&bg=FFFFFF&tb=1&s=56"
             alt="Game Banner - Replace with descriptive text"
             class="w-50 h-auto mb-4 rounded-md shadow-sm game-banner-image mx-auto"
             onerror="this.onerror=null; this.src='https://placehold.co/800x150/cccccc/ffffff?text=Image+Error';">
         <h2 class="text-1xl font-bold mb-2 text-stone-600"></h2>
-        <h2 class="text-1xl font-regular mb-2 text-stone-600">Can you solve today's slightly oblique cultural puzzle?</h2>
+        <h2 class="text-1xl font-regular mb-2 text-stone-600">Can you solve today's pretty devious puzzle?</h2>
         <div id="source-type-emoji" class="text-2xl mb-2"></div> 
          <div id="score-display"></div>
     <!-- Add this inside the <body> tag -->
@@ -29,13 +29,13 @@
 <!-- Add a hidden modal for instructions -->
 <div id="howToPlayModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 class="city">How to solve an <b>oblique</b>, a labyrinthine cultural puzzle:</h2>
+    <h2 class="city">How to solve <b>Devious</b>, a labyrinthine cultural puzzle:</h2>
     <p class="bum">
     <b>1:</b> Solve the clues around the center box that will point towards a famous cultural work (novel, song, painting, etc.)
  <br>
-           <b>2:</b> Delve deeper into the artwork by solving the four corner clues.
+           <b>2:</b> Delve deeper into the artwork to with the four corner clues.
             <br>
-            <b>3:</b> Answer the final clue in the center box to solve the puzzle.
+            <b>3:</b> Solve the final clue in the center box to solve the puzzle.
             <br><br>
             Click on a box to answer, and submit your guess. <b>Good luck!</b>
         </p>
@@ -573,9 +573,9 @@
 
         // Displays the final congratulatory message and applies animation
          function endGameCelebration() {
-             puzzleTitleEl.textContent = "Oblique completed!";
+             puzzleTitleEl.textContent = "Devious solved!";
              messageAreaEl.classList.add('final-celebration-message'); // Apply pulsing animation class
-             displayMessage('🧠 Congratulations! You can join the Obliquerati! 🧠', 'text-lg font-bold text-orange-600');
+             displayMessage('😈 Congratulations! You are truly devious! 😈', 'text-lg font-bold text-orange-600');
 
              // Optional: Add final visual flair (e.g., dim non-central boxes)
              gridEl.querySelectorAll('.clue-box-container, .phase2-box').forEach(el => {
