@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee Outline&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee Outline&family=Montserrat&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
    
 <body class="flex flex-col items-center min-h-screen p-4"> <header class="text-center mb-6 w-full max-w-3xl">
          <img
@@ -29,17 +29,29 @@
 <!-- Add a hidden modal for instructions -->
 <div id="howToPlayModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h3 class="text-xl font-bold mb-4 text-center">How to Play</h3>
-        <p class="text-gray-700 text-sm mb-4">
-            Solve the cryptic cultural puzzle by solving clues in the maze:
-            <br><br>
-            **Phase 1:** Solve the clues around the center box that will give you the famous cultural work (novel, song, painting, etc.)
+        <h2 class="city">How to solve an <b>oblique</b>, a labyrinthine cultural puzzle:</h2>
+    <p class="bum">
+    <b>1:</b> Solve the clues around the center box that will point towards a famous cultural work (novel, song, painting, etc.)
+ <br>
+           <b>2:</b> Delve deeper into the artwork to with the four corner clues.
             <br>
-            **Phase 2:** Delve deeper into the artwork to with the four corner clues.
-            <br>
-            **Phase 3:** Solve the final clue in the center box to solve the puzzle.
+            <b>3:</b> Solve the final clue in the center box to solve the puzzle.
             <br><br>
-            Click on a box to answer, and submit your guess. Good luck!
+            Click on a box to answer, and submit your guess. <b>Good luck!</b>
+        </p>
+        
+<h2 class="arse">Clue types:</h2>
+<p class="arse">
+<b>Playful cryptic crossword</b>* <br>e.g. Mocking a steak? (5,5)= Roast beef; <br>Herb walking by, say? (4,5) = Time passes
+ <br>
+           <b>Classic crossword</b> e.g. Trick (4)= Fool
+            <br> 
+            <b>Gap-fill</b> e.g. "The Dude ______ !" = Abides
+            <br><b>Colour symbolism</b> e.g. Public grief = Black
+    	  <br><b>Anagrams</b> e.g. Rinses = Sirens
+             <br><b>+ many other fun types of clue </b> <br>e.g. 💔  (8) = lovelorn
+             <br>*cryptic clues should not require excessive knowledge of cryptic abbreviations! 
+            <br> 
         </p>
         <button id="closeModalButton" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 w-full">
             Got it!
